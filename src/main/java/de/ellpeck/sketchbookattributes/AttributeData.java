@@ -68,6 +68,15 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
         return new PacketHandler.SyncAttributes(this.player.getUUID(), this.serializeNBT());
     }
 
+    // copied from PlayerEntity and adapted to be slightly higher
+    public int getXpNeededForNextLevel() {
+        if (this.level >= 30) {
+            return 150 + (this.level - 30) * 15;
+        } else {
+            return this.level >= 15 ? 50 + (this.level - 15) * 8 : 25 + this.level * 4;
+        }
+    }
+
     public static AttributeData get(PlayerEntity player) {
         return player.getCapability(SketchBookAttributes.ATTRIBUTE_DATA_CAPABILITY)
                 .orElseThrow(() -> new IllegalStateException("Player " + player + " does not have the attribute data capability"));

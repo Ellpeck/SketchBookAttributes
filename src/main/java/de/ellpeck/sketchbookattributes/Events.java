@@ -8,6 +8,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderNameplateEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.player.PlayerXpEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -37,6 +39,24 @@ public class Events {
                     continue;
                 AttributeData otherData = AttributeData.get(other);
                 PacketHandler.sendTo(player, otherData.getPacket());
+            }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void playerXpChange(PlayerXpEvent.XpChange event) {
+        PlayerEntity player = event.getPlayer();
+        int amount = event.getAmount();
+        if (player.level.isClientSide || amount <= 0)
+            return;
+        AttributeData data = AttributeData.get(player);
+        if (data.level < AttributeData.MAX_LEVEL) {
+            data.pointsToNextLevel += amount;
+            while (data.pointsToNextLevel >= data.getXpNeededForNextLevel()) {
+                data.pointsToNextLevel -= data.getXpNeededForNextLevel();
+                data.level++;
+                // send levelup packet to everyone for the nametag display
+                PacketHandler.sendToAll(data.getPacket());
             }
         }
     }
