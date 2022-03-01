@@ -81,8 +81,10 @@ public class Events {
             if (event.phase != TickEvent.Phase.START)
                 return;
             Minecraft mc = Minecraft.getInstance();
-            if (mc.screen == null && Registry.Client.OPEN_KEYBIND.consumeClick())
-                mc.setScreen(new AttributesScreen());
+            if (mc.screen == null && Registry.Client.OPEN_KEYBIND.consumeClick()) {
+                AttributeData data = AttributeData.get(mc.player);
+                mc.setScreen(new AttributesScreen(data));
+            }
         }
     }
 }

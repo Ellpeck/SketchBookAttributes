@@ -1,3 +1,14 @@
 {
-    "info.sketchbookattributes.level": "Lvl %s"
+    "info.sketchbookattributes.level": "Lvl %s",
+    "info.sketchbookattributes.screen": "Player Attributes",
+    "attribute.sketchbookattributes.strength": "Strength",
+    "attribute.sketchbookattributes.dexterity": "Dexterity",
+    "attribute.sketchbookattributes.constitution": "Constitution",
+    "attribute.sketchbookattributes.intelligence": "Intelligence",
+    "attribute.sketchbookattributes.agility": "Agility",
+    "attribute.sketchbookattributes.strength.description": "Gives a melee damage bonus",
+    "attribute.sketchbookattributes.dexterity.description": "Gives a ranged damage bonus",
+    "attribute.sketchbookattributes.constitution.description": "Gives increased health and health regeneration",
+    "attribute.sketchbookattributes.intelligence.description": "Gives increased mana and mana regeneration",
+    "attribute.sketchbookattributes.agility.description": "Gives increased attack and movement speeds"
 }
