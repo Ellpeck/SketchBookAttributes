@@ -7,18 +7,28 @@ import net.minecraft.util.text.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderNameplateEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber
 public class Events {
 
-    // TODO sync with player themselves but also other players (nameplate display!)
     @SubscribeEvent
     public static void attachCapabilities(AttachCapabilitiesEvent<Entity> event) {
         Entity entity = event.getObject();
         if (entity instanceof PlayerEntity)
             event.addCapability(new ResourceLocation(SketchBookAttributes.ID, "attributes"), new AttributeData((PlayerEntity) entity));
+    }
+
+    @SubscribeEvent
+    public static void entityJoinWorld(EntityJoinWorldEvent event) {
+        Entity entity = event.getEntity();
+        if (!entity.level.isClientSide && entity instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) entity;
+            AttributeData data = AttributeData.get(player);
+            data.sendToAll();
+        }
     }
 
     @Mod.EventBusSubscriber(Dist.CLIENT)

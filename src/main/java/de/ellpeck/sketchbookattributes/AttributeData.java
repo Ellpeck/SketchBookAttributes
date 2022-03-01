@@ -64,6 +64,10 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
         return cap == SketchBookAttributes.ATTRIBUTE_DATA_CAPABILITY ? this.lazyThis.cast() : LazyOptional.empty();
     }
 
+    public void sendToAll() {
+        PacketHandler.sendToAll(new PacketHandler.SyncAttributes(this.player.getUUID(), this.serializeNBT()));
+    }
+
     public static AttributeData get(PlayerEntity player) {
         return player.getCapability(SketchBookAttributes.ATTRIBUTE_DATA_CAPABILITY)
                 .orElseThrow(() -> new IllegalStateException("Player " + player + " does not have the attribute data capability"));

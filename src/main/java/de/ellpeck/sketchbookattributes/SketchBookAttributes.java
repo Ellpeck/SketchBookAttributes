@@ -27,6 +27,8 @@ public class SketchBookAttributes {
     }
 
     private void setup(FMLCommonSetupEvent event) {
+        PacketHandler.setup();
+
         // register the capability with this super bloated system that is being removed in 1.17+ anyway
         CapabilityManager.INSTANCE.register(AttributeData.class, new Capability.IStorage<AttributeData>() {
             @Nullable
