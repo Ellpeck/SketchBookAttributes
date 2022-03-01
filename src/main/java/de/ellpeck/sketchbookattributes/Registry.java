@@ -38,7 +38,7 @@ public class Registry {
 
     public static class Client {
 
-        public static final KeyBinding OPEN_KEYBIND = new KeyBinding("key." + SketchBookAttributes.ID + ".open", 73, "key.categories.gameplay");
+        public static final KeyBinding OPEN_KEYBIND = new KeyBinding("key." + SketchBookAttributes.ID + ".open", 73, "key.categories.misc");
 
         public static void setup(FMLClientSetupEvent event) {
             ClientRegistry.registerKeyBinding(OPEN_KEYBIND);

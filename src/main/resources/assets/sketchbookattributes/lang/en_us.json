@@ -1,6 +1,7 @@
 {
     "info.sketchbookattributes.level": "Lvl %s",
     "info.sketchbookattributes.screen": "Player Attributes",
+    "key.sketchbookattributes.open": "Player Attributes",
     "attribute.sketchbookattributes.strength": "Strength",
     "attribute.sketchbookattributes.dexterity": "Dexterity",
     "attribute.sketchbookattributes.constitution": "Constitution",
