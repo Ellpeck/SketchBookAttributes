@@ -26,8 +26,18 @@ public class Events {
         Entity entity = event.getEntity();
         if (!entity.level.isClientSide && entity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entity;
+
+            // send the new player's data to people on the server
             AttributeData data = AttributeData.get(player);
-            data.sendToAll();
+            PacketHandler.sendToAll(data.getPacket());
+
+            // send the data of people on the server to the new player
+            for (PlayerEntity other : entity.level.players()) {
+                if (other == player)
+                    continue;
+                AttributeData otherData = AttributeData.get(other);
+                PacketHandler.sendTo(player, otherData.getPacket());
+            }
         }
     }
 

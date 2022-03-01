@@ -31,6 +31,10 @@ public class PacketHandler {
         network.send(PacketDistributor.ALL.noArg(), message);
     }
 
+    public static void sendTo(PlayerEntity player, Object message) {
+        network.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), message);
+    }
+
     public static class SyncAttributes {
 
         private final UUID player;
