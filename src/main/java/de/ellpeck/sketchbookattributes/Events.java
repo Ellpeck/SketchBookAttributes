@@ -7,7 +7,7 @@ import net.minecraft.util.text.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderNameplateEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerXpEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -24,21 +24,19 @@ public class Events {
     }
 
     @SubscribeEvent
-    public static void entityJoinWorld(EntityJoinWorldEvent event) {
-        Entity entity = event.getEntity();
-        if (!entity.level.isClientSide && entity instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) entity;
-
-            // send the new player's data to people on the server
+    public static void playerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        PlayerEntity player = event.getPlayer();
+        if (!player.level.isClientSide) {
             AttributeData data = AttributeData.get(player);
-            PacketHandler.sendToAll(data.getPacket());
+            for (PlayerEntity other : player.level.players()) {
+                // send the new player's data to people on the server
+                PacketHandler.sendTo(other, data.getPacket());
 
-            // send the data of people on the server to the new player
-            for (PlayerEntity other : entity.level.players()) {
-                if (other == player)
-                    continue;
-                AttributeData otherData = AttributeData.get(other);
-                PacketHandler.sendTo(player, otherData.getPacket());
+                // send the data of people on the server to the new player
+                if (other != player) {
+                    AttributeData otherData = AttributeData.get(other);
+                    PacketHandler.sendTo(player, otherData.getPacket());
+                }
             }
         }
     }
