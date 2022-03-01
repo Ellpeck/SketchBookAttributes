@@ -1,5 +1,6 @@
 package de.ellpeck.sketchbookattributes;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -7,6 +8,7 @@ import net.minecraft.util.text.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderNameplateEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerXpEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -74,5 +76,13 @@ public class Events {
             }
         }
 
+        @SubscribeEvent
+        public static void clientTick(TickEvent.ClientTickEvent event) {
+            if (event.phase != TickEvent.Phase.START)
+                return;
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.screen == null && Registry.Client.OPEN_KEYBIND.consumeClick())
+                mc.setScreen(new AttributesScreen());
+        }
     }
 }

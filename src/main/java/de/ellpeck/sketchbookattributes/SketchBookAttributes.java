@@ -3,10 +3,12 @@ package de.ellpeck.sketchbookattributes;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -23,24 +25,8 @@ public class SketchBookAttributes {
 
     public SketchBookAttributes() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        bus.addListener(this::setup);
+        bus.addListener(Registry::setup);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> bus.addListener(Registry.Client::setup));
     }
 
-    private void setup(FMLCommonSetupEvent event) {
-        PacketHandler.setup();
-
-        // register the capability with this super bloated system that is being removed in 1.17+ anyway
-        CapabilityManager.INSTANCE.register(AttributeData.class, new Capability.IStorage<AttributeData>() {
-            @Nullable
-            @Override
-            public INBT writeNBT(Capability<AttributeData> capability, AttributeData instance, Direction side) {
-                return new CompoundNBT();
-            }
-
-            @Override
-            public void readNBT(Capability<AttributeData> capability, AttributeData instance, Direction side, INBT nbt) {
-
-            }
-        }, () -> null);
-    }
 }
