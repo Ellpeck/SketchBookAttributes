@@ -1,20 +1,17 @@
 package de.ellpeck.sketchbookattributes;
 
-import de.ellpeck.sketchbookattributes.SketchBookAttributes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
-import java.util.UUID;
 import java.util.function.Supplier;
 
 public class PacketHandler {
@@ -42,20 +39,17 @@ public class PacketHandler {
 
     public static class SyncAttributes {
 
-        private final UUID player;
         private final CompoundNBT data;
 
-        public SyncAttributes(UUID player, CompoundNBT data) {
-            this.player = player;
+        public SyncAttributes(CompoundNBT data) {
             this.data = data;
         }
 
         public static SyncAttributes fromBytes(PacketBuffer buf) {
-            return new SyncAttributes(buf.readUUID(), buf.readNbt());
+            return new SyncAttributes(buf.readNbt());
         }
 
         public static void toBytes(SyncAttributes packet, PacketBuffer buf) {
-            buf.writeUUID(packet.player);
             buf.writeNbt(packet.data);
         }
 
@@ -67,11 +61,8 @@ public class PacketHandler {
                     World level = Minecraft.getInstance().level;
                     if (level == null)
                         return;
-                    PlayerEntity player = level.getPlayerByUUID(message.player);
-                    if (player == null)
-                        return;
-                    AttributeData data = AttributeData.get(player);
-                    data.deserializeNBT(message.data);
+                    AttributeData data = AttributeData.get(level);
+                    data.load(message.data);
                 }
             });
             ctx.get().setPacketHandled(true);
@@ -100,28 +91,29 @@ public class PacketHandler {
                 @Override
                 public void run() {
                     PlayerEntity player = ctx.get().getSender();
-                    AttributeData data = AttributeData.get(player);
-                    if (data.skillPoints <= 0)
+                    AttributeData data = AttributeData.get(player.level);
+                    AttributeData.PlayerAttributes attributes = data.getAttributes(player);
+                    if (attributes.skillPoints <= 0)
                         return;
-                    data.skillPoints--;
+                    attributes.skillPoints--;
                     switch (message.type) {
                         case "strength":
-                            data.strength++;
+                            attributes.strength++;
                             break;
                         case "dexterity":
-                            data.dexterity++;
+                            attributes.dexterity++;
                             break;
                         case "constitution":
-                            data.constitution++;
+                            attributes.constitution++;
                             break;
                         case "intelligence":
-                            data.intelligence++;
+                            attributes.intelligence++;
                             break;
                         case "agility":
-                            data.agility++;
+                            attributes.agility++;
                             break;
                     }
-                    data.reapplyAttributes();
+                    attributes.reapplyAttributes(player);
                     PacketHandler.sendTo(player, data.getPacket());
                 }
             });

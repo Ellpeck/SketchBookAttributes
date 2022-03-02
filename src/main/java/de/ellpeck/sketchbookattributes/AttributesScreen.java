@@ -19,10 +19,10 @@ public class AttributesScreen extends Screen {
     private static final int IMAGE_WIDTH = 272;
     private static final int IMAGE_HEIGHT = 177;
 
-    private final AttributeData data;
+    private final AttributeData.PlayerAttributes data;
     private AttributeInfo[] attributes;
 
-    public AttributesScreen(AttributeData data) {
+    public AttributesScreen(AttributeData.PlayerAttributes data) {
         super(new TranslationTextComponent("info." + SketchBookAttributes.ID + ".screen"));
         this.data = data;
     }
@@ -114,13 +114,13 @@ public class AttributesScreen extends Screen {
 
         public final Button button;
 
-        private final AttributeData data;
+        private final AttributeData.PlayerAttributes data;
         private final String name;
-        private final Function<AttributeData, Integer> getLevel;
+        private final Function<AttributeData.PlayerAttributes, Integer> getLevel;
         private final int x;
         private final int y;
 
-        public AttributeInfo(AttributeData data, String name, Function<AttributeData, Integer> getLevel, int x, int y) {
+        public AttributeInfo(AttributeData.PlayerAttributes data, String name, Function<AttributeData.PlayerAttributes, Integer> getLevel, int x, int y) {
             this.data = data;
             this.name = name;
             this.getLevel = getLevel;
