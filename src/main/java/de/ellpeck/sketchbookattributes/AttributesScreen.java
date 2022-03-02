@@ -54,7 +54,18 @@ public class AttributesScreen extends Screen {
 
         this.minecraft.textureManager.bind(IMAGE);
         blit(stack, left, top, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT, 512, 256);
+        blit(stack, left + 25, top + 166, 0, 177, 220 * this.data.pointsToNextLevel / this.data.getXpNeededForNextLevel(), 6, 512, 256);
         this.font.draw(stack, this.title, left + IMAGE_WIDTH / 2F - this.font.width(this.title) / 2F, top + 8, 4210752);
+
+        // draw level with shadow
+        ITextComponent level = new TranslationTextComponent("info." + SketchBookAttributes.ID + ".level", this.data.level);
+        float levelX = left + IMAGE_WIDTH / 2F - this.font.width(level) / 2F;
+        float levelY = top + 165;
+        this.font.draw(stack, level, levelX - 1, levelY, 0);
+        this.font.draw(stack, level, levelX + 1, levelY, 0);
+        this.font.draw(stack, level, levelX, levelY - 1, 0);
+        this.font.draw(stack, level, levelX, levelY + 1, 0);
+        this.font.draw(stack, level, levelX, levelY, 8453920);
 
         for (AttributeInfo attribute : this.attributes)
             attribute.render(stack);

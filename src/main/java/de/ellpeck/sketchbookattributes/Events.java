@@ -56,10 +56,10 @@ public class Events {
             if (data.level < AttributeData.MAX_LEVEL) {
                 data.level++;
                 data.skillPoints++;
-                // send levelup packet to everyone for the nametag display
-                PacketHandler.sendToAll(data.getPacket());
             }
         }
+        // send packet to everyone for the nametag display
+        PacketHandler.sendToAll(data.getPacket());
     }
 
     @Mod.EventBusSubscriber(Dist.CLIENT)
