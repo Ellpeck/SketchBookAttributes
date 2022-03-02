@@ -136,9 +136,9 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
         this.reapplyAttribute(Attributes.MOVEMENT_SPEED, MOVE_SPEED_ATTRIBUTE, this.getMovementSpeedBonus());
     }
 
-    public void gainXp(float amount) {
+    public boolean gainXp(float amount) {
         if (this.level >= MAX_LEVEL)
-            return;
+            return false;
         this.pointsToNextLevel += amount;
         while (this.pointsToNextLevel >= this.getXpNeededForNextLevel()) {
             this.pointsToNextLevel -= this.getXpNeededForNextLevel();
@@ -149,6 +149,7 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
                 this.pointsToNextLevel = 0;
             }
         }
+        return true;
     }
 
     private void reapplyAttribute(Attribute type, UUID id, float value) {

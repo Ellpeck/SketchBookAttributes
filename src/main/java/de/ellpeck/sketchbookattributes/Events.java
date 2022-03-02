@@ -50,9 +50,10 @@ public class Events {
         if (player.level.isClientSide || amount <= 0)
             return;
         AttributeData data = AttributeData.get(player);
-        data.gainXp(amount);
-        // send packet to everyone for the nametag display
-        PacketHandler.sendToAll(data.getPacket());
+        if (data.gainXp(amount)) {
+            // send packet to everyone for the nametag display
+            PacketHandler.sendToAll(data.getPacket());
+        }
     }
 
     @Mod.EventBusSubscriber(Dist.CLIENT)
