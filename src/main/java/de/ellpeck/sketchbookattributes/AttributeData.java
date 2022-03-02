@@ -19,7 +19,7 @@ import java.util.UUID;
 
 public class AttributeData extends WorldSavedData {
 
-    private static final String NAME = SketchBookAttributes.ID + ":attribute_data";
+    private static final String NAME = SketchBookAttributes.ID + "_attribute_data";
     private static AttributeData clientData;
 
     private final Map<UUID, PlayerAttributes> attributes = new HashMap<>();
