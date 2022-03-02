@@ -94,37 +94,37 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
 
     // TODO use this and mana regen in tick event
     public float getHealthRegenPerSecond() {
-        return this.constitution * SketchBookAttributes.healthRegenPerLevel.get();
+        return this.constitution * SketchBookAttributes.healthRegenPerLevel.get().floatValue();
     }
 
     public float getManaRegenPerSecond() {
-        return 1 / 1.5F + this.intelligence * SketchBookAttributes.manaRegenPerLevel.get();
+        return 1 / 1.5F + this.intelligence * SketchBookAttributes.manaRegenPerLevel.get().floatValue();
     }
 
     public float getMeleeDamageBonus() {
-        return this.strength * SketchBookAttributes.meleeDamagePerLevel.get();
+        return this.strength * SketchBookAttributes.meleeDamagePerLevel.get().floatValue();
     }
 
     // TODO apply this to arrows when they spawn, bleh
     public float getRangedDamageBonus() {
-        return this.dexterity * SketchBookAttributes.rangedDamagePerLevel.get();
+        return this.dexterity * SketchBookAttributes.rangedDamagePerLevel.get().floatValue();
     }
 
     public float getHealthBonus() {
-        return this.constitution * SketchBookAttributes.healthBonusPerLevel.get();
+        return this.constitution * SketchBookAttributes.healthBonusPerLevel.get().floatValue();
     }
 
     public float getMeleeSpeedBonus() {
-        return this.agility * SketchBookAttributes.meleeSpeedPerLevel.get();
+        return this.agility * SketchBookAttributes.meleeSpeedPerLevel.get().floatValue();
     }
 
     // TODO apply this to the bow drawing speed using ArrowLooseEvent
     public float getRangedSpeedBonus() {
-        return this.agility * SketchBookAttributes.rangedSpeedPerLevel.get();
+        return this.agility * SketchBookAttributes.rangedSpeedPerLevel.get().floatValue();
     }
 
     public float getMovementSpeedBonus() {
-        return this.agility * SketchBookAttributes.movementSpeedPerLevel.get();
+        return this.agility * SketchBookAttributes.movementSpeedPerLevel.get().floatValue();
     }
 
     public void reapplyAttributes() {

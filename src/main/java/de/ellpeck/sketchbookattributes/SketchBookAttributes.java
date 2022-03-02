@@ -19,15 +19,15 @@ public class SketchBookAttributes {
     @CapabilityInject(AttributeData.class)
     public static final Capability<AttributeData> ATTRIBUTE_DATA_CAPABILITY = null;
 
-    public static ConfigValue<Float> xpNeededMultiplier;
-    public static ConfigValue<Float> healthRegenPerLevel;
-    public static ConfigValue<Float> manaRegenPerLevel;
-    public static ConfigValue<Float> meleeDamagePerLevel;
-    public static ConfigValue<Float> rangedDamagePerLevel;
-    public static ConfigValue<Float> healthBonusPerLevel;
-    public static ConfigValue<Float> meleeSpeedPerLevel;
-    public static ConfigValue<Float> rangedSpeedPerLevel;
-    public static ConfigValue<Float> movementSpeedPerLevel;
+    public static ConfigValue<Double> xpNeededMultiplier;
+    public static ConfigValue<Double> healthRegenPerLevel;
+    public static ConfigValue<Double> manaRegenPerLevel;
+    public static ConfigValue<Double> meleeDamagePerLevel;
+    public static ConfigValue<Double> rangedDamagePerLevel;
+    public static ConfigValue<Double> healthBonusPerLevel;
+    public static ConfigValue<Double> meleeSpeedPerLevel;
+    public static ConfigValue<Double> rangedSpeedPerLevel;
+    public static ConfigValue<Double> movementSpeedPerLevel;
 
     public SketchBookAttributes() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -37,31 +37,31 @@ public class SketchBookAttributes {
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
         xpNeededMultiplier = configBuilder
                 .comment("A modifier that is mulitplied with the amount of XP needed for a given level")
-                .define("xp_needed_multiplier", 1F);
+                .define("xp_needed_multiplier", 1D);
         healthRegenPerLevel = configBuilder
                 .comment("The amount of health regen that an additional level of the ability adds per second")
-                .define("health_regen_per_level", 0.02F);
+                .define("health_regen_per_level", 0.02);
         manaRegenPerLevel = configBuilder
                 .comment("The amount of mana regen that an additional level of the ability adds per second")
-                .define("mana_regen_per_level", 0.02F);
+                .define("mana_regen_per_level", 0.02);
         meleeDamagePerLevel = configBuilder
                 .comment("The amount of melee damage that an addditional level of the ability adds")
-                .define("melee_damage_per_level", 0.25F);
+                .define("melee_damage_per_level", 0.25);
         rangedDamagePerLevel = configBuilder
                 .comment("The amount of ranged damage that an addditional level of the ability adds")
-                .define("ranged_damage_per_level", 0.25F);
+                .define("ranged_damage_per_level", 0.25);
         healthBonusPerLevel = configBuilder
                 .comment("The amount of additional health that an addditional level of the ability adds")
-                .define("health_bonus_per_level", 1F);
+                .define("health_bonus_per_level", 1D);
         meleeSpeedPerLevel = configBuilder
                 .comment("The amount of melee speed that an addditional level of the ability adds")
-                .define("melee_speed_per_level", 0.1F);
+                .define("melee_speed_per_level", 0.1);
         rangedSpeedPerLevel = configBuilder
                 .comment("The amount of ranged speed that an addditional level of the ability adds")
-                .define("ranged_speed_per_level", 0.1F);
+                .define("ranged_speed_per_level", 0.1);
         movementSpeedPerLevel = configBuilder
                 .comment("The amount that movement speed is increased for each addditional level of the ability")
-                .define("movement_speed_per_level", 0.1F);
+                .define("movement_speed_per_level", 0.1);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, configBuilder.build());
     }
 
