@@ -1,10 +1,16 @@
 package de.ellpeck.sketchbookattributes;
 
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.minecraft.client.Minecraft;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.*;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderNameplateEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -14,6 +20,7 @@ import net.minecraftforge.event.entity.player.PlayerXpEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 
 @Mod.EventBusSubscriber
 public class Events {
@@ -54,6 +61,28 @@ public class Events {
             // send packet to everyone for the nametag display
             PacketHandler.sendToAll(data.getPacket());
         }
+    }
+
+    @SubscribeEvent
+    public static void onServerStarting(FMLServerStartingEvent event) {
+        event.getServer().getCommands().getDispatcher().register(Commands.literal(SketchBookAttributes.ID).requires(s -> s.hasPermission(2))
+                .then(Commands.literal("level").then(Commands.argument("level", IntegerArgumentType.integer(0, AttributeData.MAX_LEVEL)).executes(c -> {
+                    CommandSource source = c.getSource();
+                    AttributeData data = AttributeData.get(source.getPlayerOrException());
+                    data.level = IntegerArgumentType.getInteger(c, "level");
+                    data.pointsToNextLevel = 0;
+                    PacketHandler.sendToAll(data.getPacket());
+                    source.sendSuccess(new TranslationTextComponent("info." + SketchBookAttributes.ID + ".level_set", source.getDisplayName(), data.level), true);
+                    return 0;
+                })))
+                .then(Commands.literal("points").then(Commands.argument("points", IntegerArgumentType.integer(0)).executes(c -> {
+                    CommandSource source = c.getSource();
+                    AttributeData data = AttributeData.get(source.getPlayerOrException());
+                    data.skillPoints = IntegerArgumentType.getInteger(c, "points");
+                    PacketHandler.sendToAll(data.getPacket());
+                    source.sendSuccess(new TranslationTextComponent("info." + SketchBookAttributes.ID + ".points_set", source.getDisplayName(), data.skillPoints), true);
+                    return 0;
+                }))));
     }
 
     @Mod.EventBusSubscriber(Dist.CLIENT)

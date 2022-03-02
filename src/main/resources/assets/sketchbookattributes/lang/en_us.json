@@ -1,6 +1,8 @@
 {
     "info.sketchbookattributes.level": "Lvl %s",
     "info.sketchbookattributes.screen": "Player Attributes",
+    "info.sketchbookattributes.level_set": "Set level for %s to %s",
+    "info.sketchbookattributes.points_set": "Set skill points for %s to %s",
     "key.sketchbookattributes.open": "Player Attributes",
     "attribute.sketchbookattributes.strength": "Strength",
     "attribute.sketchbookattributes.dexterity": "Dexterity",
