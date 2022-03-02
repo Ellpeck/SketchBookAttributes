@@ -25,6 +25,7 @@ public class PacketHandler {
     public static void setup() {
         network = NetworkRegistry.newSimpleChannel(new ResourceLocation(SketchBookAttributes.ID, "network"), () -> VERSION, VERSION::equals, VERSION::equals);
         network.registerMessage(0, SyncAttributes.class, SyncAttributes::toBytes, SyncAttributes::fromBytes, SyncAttributes::onMessage);
+        network.registerMessage(1, AttributeButton.class, AttributeButton::toBytes, AttributeButton::fromBytes, AttributeButton::onMessage);
     }
 
     public static void sendToAll(Object message) {
@@ -33,6 +34,10 @@ public class PacketHandler {
 
     public static void sendTo(PlayerEntity player, Object message) {
         network.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), message);
+    }
+
+    public static void sendToServer(Object message) {
+        network.send(PacketDistributor.SERVER.noArg(), message);
     }
 
     public static class SyncAttributes {
@@ -67,6 +72,56 @@ public class PacketHandler {
                         return;
                     AttributeData data = AttributeData.get(player);
                     data.deserializeNBT(message.data);
+                }
+            });
+            ctx.get().setPacketHandled(true);
+        }
+    }
+
+    public static class AttributeButton {
+
+        private final String type;
+
+        public AttributeButton(String type) {
+            this.type = type;
+        }
+
+        public static AttributeButton fromBytes(PacketBuffer buf) {
+            return new AttributeButton(buf.readUtf());
+        }
+
+        public static void toBytes(AttributeButton packet, PacketBuffer buf) {
+            buf.writeUtf(packet.type);
+        }
+
+        @SuppressWarnings("Convert2Lambda")
+        public static void onMessage(AttributeButton message, Supplier<NetworkEvent.Context> ctx) {
+            ctx.get().enqueueWork(new Runnable() {
+                @Override
+                public void run() {
+                    PlayerEntity player = ctx.get().getSender();
+                    AttributeData data = AttributeData.get(player);
+                    if (data.skillPoints <= 0)
+                        return;
+                    data.skillPoints--;
+                    switch (message.type) {
+                        case "strength":
+                            data.strength++;
+                            break;
+                        case "dexterity":
+                            data.dexterity++;
+                            break;
+                        case "constitution":
+                            data.constitution++;
+                            break;
+                        case "intelligence":
+                            data.intelligence++;
+                            break;
+                        case "agility":
+                            data.agility++;
+                            break;
+                    }
+                    PacketHandler.sendTo(player, data.getPacket());
                 }
             });
             ctx.get().setPacketHandled(true);

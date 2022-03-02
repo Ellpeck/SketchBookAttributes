@@ -123,9 +123,9 @@ public class AttributesScreen extends Screen {
             this.x = x;
             this.y = y;
 
-            this.button = new ExtendedButton(this.x - 19, this.y + 1, 15, 15, new StringTextComponent("+"), b -> {
-
-            });
+            this.button = new ExtendedButton(this.x - 19, this.y + 1, 15, 15, new StringTextComponent("+"),
+                    b -> PacketHandler.sendToServer(new PacketHandler.AttributeButton(this.name)));
+            this.button.active = this.data.skillPoints > 0;
         }
 
         public void render(MatrixStack stack) {
@@ -133,6 +133,8 @@ public class AttributesScreen extends Screen {
             ITextComponent text = new TranslationTextComponent("attribute." + SketchBookAttributes.ID + "." + this.name);
             AttributesScreen.this.font.draw(stack, text, this.x + 5, this.y + 5, 4210752);
             AttributesScreen.this.font.draw(stack, level, this.x + 80 - AttributesScreen.this.font.width(level), this.y + 5, 4210752);
+
+            this.button.active = this.data.skillPoints > 0;
         }
 
         public void renderTooltip(MatrixStack stack, int mouseX, int mouseY) {
