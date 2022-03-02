@@ -95,7 +95,6 @@ public class Events {
         if (event.player.tickCount % 20 == 0) {
             data.mana = Math.min(data.maxMana, data.mana + data.getManaRegenPerSecond());
             event.player.heal(data.getHealthRegenPerSecond());
-            System.out.println(event.player.getHealth());
         }
     }
 
