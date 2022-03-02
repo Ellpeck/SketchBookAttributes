@@ -100,6 +100,11 @@ public class AttributesScreen extends Screen {
         return super.keyPressed(i, j, k);
     }
 
+    @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
+
     private void renderStat(MatrixStack stack, String name, float value, int x, int y) {
         String valueString = new DecimalFormat("0.##").format(value);
         this.font.draw(stack, new TranslationTextComponent("stat." + SketchBookAttributes.ID + "." + name), x, y, 4210752);

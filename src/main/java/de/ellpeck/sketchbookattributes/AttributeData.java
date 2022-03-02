@@ -86,9 +86,9 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
     // copied from PlayerEntity and adapted to be slightly higher
     public int getXpNeededForNextLevel() {
         if (this.level >= 30) {
-            return 150 + (this.level - 30) * 15;
+            return 150 + (this.level - 30) * 18;
         } else {
-            return this.level >= 15 ? 50 + (this.level - 15) * 8 : 25 + this.level * 4;
+            return this.level >= 15 ? 50 + (this.level - 15) * 10 : 25 + this.level * 5;
         }
     }
 
@@ -135,6 +135,21 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
         this.reapplyAttribute(Attributes.MAX_HEALTH, MAX_HEALTH_ATTRIBUTE, this.getHealthBonus());
         this.reapplyAttribute(Attributes.ATTACK_SPEED, MELEE_SPEED_ATTRIBUTE, this.getMeleeSpeedBonus());
         this.reapplyAttribute(Attributes.MOVEMENT_SPEED, MOVE_SPEED_ATTRIBUTE, this.getWalkSwimSpeedBonus());
+    }
+
+    public void gainXp(float amount) {
+        if (this.level >= MAX_LEVEL)
+            return;
+        this.pointsToNextLevel += amount;
+        while (this.pointsToNextLevel >= this.getXpNeededForNextLevel()) {
+            this.pointsToNextLevel -= this.getXpNeededForNextLevel();
+            if (this.level < MAX_LEVEL) {
+                this.level++;
+                this.skillPoints++;
+            } else {
+                this.pointsToNextLevel = 0;
+            }
+        }
     }
 
     private void reapplyAttribute(Attribute type, UUID id, float value) {
