@@ -121,6 +121,7 @@ public class PacketHandler {
                             data.agility++;
                             break;
                     }
+                    data.reapplyAttributes();
                     PacketHandler.sendTo(player, data.getPacket());
                 }
             });

@@ -1,19 +1,29 @@
 package de.ellpeck.sketchbookattributes;
 
+import net.minecraft.entity.ai.attributes.Attribute;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.UUID;
 
 public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
 
     public static final int MAX_LEVEL = 100;
+
+    private static final UUID MELEE_DAMAGE_ATTRIBUTE = UUID.fromString("46f4847e-e70c-4cf5-9c6c-6bb5057c5c25");
+    private static final UUID MELEE_SPEED_ATTRIBUTE = UUID.fromString("04971c8a-62d5-4f01-b67f-d55a29e4482c");
+    private static final UUID MAX_HEALTH_ATTRIBUTE = UUID.fromString("dd9a5f51-97c5-4a48-b26d-8089e52e2096");
+    private static final UUID MOVE_SPEED_ATTRIBUTE = UUID.fromString("f32d97d8-274e-47f3-9cd1-80004bfd2e2d");
 
     public int pointsToNextLevel;
     public int level;
@@ -59,6 +69,8 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
         this.agility = nbt.getInt("agility");
         this.mana = nbt.getInt("mana");
         this.skillPoints = nbt.getInt("skill_points");
+
+        this.reapplyAttributes();
     }
 
     @Nonnull
@@ -80,6 +92,7 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
         }
     }
 
+    // TODO use this and mana regen in tick event
     public float getHealthRegenPerSecond() {
         return this.constitution * 0.02F;
     }
@@ -93,11 +106,11 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
         return this.strength * 0.25F;
     }
 
+    // TODO apply this to arrows when they spawn, bleh
     public float getRangedDamageBonus() {
         return this.dexterity * 0.25F;
     }
 
-    // TODO actually use this
     public float getHealthBonus() {
         return this.constitution;
     }
@@ -106,12 +119,28 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
         return this.agility * 0.1F;
     }
 
+    // TODO apply this to the bow drawing speed using ArrowLooseEvent
     public float getRangedSpeedBonus() {
         return this.agility * 0.1F;
     }
 
     public float getWalkSwimSpeedBonus() {
         return this.agility * 0.1F;
+    }
+
+    public void reapplyAttributes() {
+        if (this.player.level.isClientSide)
+            return;
+        this.reapplyAttribute(Attributes.ATTACK_DAMAGE, MELEE_DAMAGE_ATTRIBUTE, this.getMeleeDamageBonus());
+        this.reapplyAttribute(Attributes.MAX_HEALTH, MAX_HEALTH_ATTRIBUTE, this.getHealthBonus());
+        this.reapplyAttribute(Attributes.ATTACK_SPEED, MELEE_SPEED_ATTRIBUTE, this.getMeleeSpeedBonus());
+        this.reapplyAttribute(Attributes.MOVEMENT_SPEED, MOVE_SPEED_ATTRIBUTE, this.getWalkSwimSpeedBonus());
+    }
+
+    private void reapplyAttribute(Attribute type, UUID id, float value) {
+        ModifiableAttributeInstance instance = this.player.getAttribute(type);
+        instance.removeModifier(id);
+        instance.addTransientModifier(new AttributeModifier(id, type.getRegistryName() + " bonus", value, Operation.ADDITION));
     }
 
     public static AttributeData get(PlayerEntity player) {
