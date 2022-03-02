@@ -6,6 +6,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -72,7 +73,19 @@ public class Events {
                     PacketHandler.sendToAll(data.getPacket());
                     source.sendSuccess(new TranslationTextComponent("info." + SketchBookAttributes.ID + ".points_set", source.getDisplayName(), attributes.skillPoints), true);
                     return 0;
-                }))));
+                })))
+                .then(Commands.literal("reset").executes(c -> {
+                    CommandSource source = c.getSource();
+                    PlayerEntity player = source.getPlayerOrException();
+                    AttributeData data = AttributeData.get(player.level);
+                    AttributeData.PlayerAttributes attributes = data.getAttributes(player);
+                    // deserializing with empty data is basically a reset :)
+                    attributes.deserializeNBT(new CompoundNBT());
+                    attributes.reapplyAttributes(player);
+                    PacketHandler.sendToAll(data.getPacket());
+                    source.sendSuccess(new TranslationTextComponent("info." + SketchBookAttributes.ID + ".reset", source.getDisplayName()), true);
+                    return 0;
+                })));
     }
 
     @SubscribeEvent
