@@ -50,11 +50,12 @@ public class Events {
         if (player.level.isClientSide || amount <= 0)
             return;
         AttributeData data = AttributeData.get(player);
-        if (data.level < AttributeData.MAX_LEVEL) {
-            data.pointsToNextLevel += amount;
-            while (data.pointsToNextLevel >= data.getXpNeededForNextLevel()) {
-                data.pointsToNextLevel -= data.getXpNeededForNextLevel();
+        data.pointsToNextLevel += amount;
+        while (data.pointsToNextLevel >= data.getXpNeededForNextLevel()) {
+            data.pointsToNextLevel -= data.getXpNeededForNextLevel();
+            if (data.level < AttributeData.MAX_LEVEL) {
                 data.level++;
+                data.skillPoints++;
                 // send levelup packet to everyone for the nametag display
                 PacketHandler.sendToAll(data.getPacket());
             }

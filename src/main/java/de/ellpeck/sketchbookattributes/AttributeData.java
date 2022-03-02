@@ -23,6 +23,7 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
     public int intelligence;
     public int agility;
     public int mana = 20;
+    public int skillPoints;
 
     private final PlayerEntity player;
     private final LazyOptional<AttributeData> lazyThis;
@@ -43,6 +44,7 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
         nbt.putInt("intelligence", this.intelligence);
         nbt.putInt("agility", this.agility);
         nbt.putInt("mana", this.mana);
+        nbt.putInt("skill_points", this.skillPoints);
         return nbt;
     }
 
@@ -56,6 +58,7 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
         this.intelligence = nbt.getInt("intelligence");
         this.agility = nbt.getInt("agility");
         this.mana = nbt.getInt("mana");
+        this.skillPoints = nbt.getInt("skill_points");
     }
 
     @Nonnull
@@ -75,6 +78,40 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
         } else {
             return this.level >= 15 ? 50 + (this.level - 15) * 8 : 25 + this.level * 4;
         }
+    }
+
+    public float getHealthRegenPerSecond() {
+        return this.constitution * 0.02F;
+    }
+
+    // todo figure out if this should be level-based too
+    public float getManaRegenPerSecond() {
+        return 1 / 1.5F;
+    }
+
+    public float getMeleeDamageBonus() {
+        return this.strength * 0.25F;
+    }
+
+    public float getRangedDamageBonus() {
+        return this.dexterity * 0.25F;
+    }
+
+    // TODO actually use this
+    public float getHealthBonus() {
+        return this.constitution;
+    }
+
+    public float getMeleeSpeedBonus() {
+        return this.agility * 0.1F;
+    }
+
+    public float getRangedSpeedBonus() {
+        return this.agility * 0.1F;
+    }
+
+    public float getWalkSwimSpeedBonus() {
+        return this.agility * 0.1F;
     }
 
     public static AttributeData get(PlayerEntity player) {

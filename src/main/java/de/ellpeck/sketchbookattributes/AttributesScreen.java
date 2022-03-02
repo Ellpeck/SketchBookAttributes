@@ -63,15 +63,15 @@ public class AttributesScreen extends Screen {
         int statY = top + 43;
         int statOffset = 11;
         this.renderStat(stack, "health", this.minecraft.player.getMaxHealth(), statX, statY);
-        this.renderStat(stack, "health_regen", 0, statX, statY + statOffset);
+        this.renderStat(stack, "health_regen", this.data.getHealthRegenPerSecond(), statX, statY + statOffset);
         this.renderStat(stack, "mana", this.data.mana, statX, statY + statOffset * 2);
-        this.renderStat(stack, "mana_regen", 0, statX, statY + statOffset * 3);
-        this.renderStat(stack, "melee_bonus", 0, statX, statY + statOffset * 4);
-        this.renderStat(stack, "ranged_bonus", 0, statX, statY + statOffset * 5);
-        this.renderStat(stack, "melee_speed", 0, statX, statY + statOffset * 6);
-        this.renderStat(stack, "ranged_speed", 0, statX, statY + statOffset * 7);
-        this.renderStat(stack, "movement_speed", 0, statX, statY + statOffset * 8);
-        this.renderStat(stack, "skill_points", 0, statX, statY + statOffset * 9);
+        this.renderStat(stack, "mana_regen", this.data.getManaRegenPerSecond(), statX, statY + statOffset * 3);
+        this.renderStat(stack, "melee_bonus", this.data.getMeleeDamageBonus(), statX, statY + statOffset * 4);
+        this.renderStat(stack, "ranged_bonus", this.data.getRangedDamageBonus(), statX, statY + statOffset * 5);
+        this.renderStat(stack, "melee_speed", this.data.getMeleeSpeedBonus(), statX, statY + statOffset * 6);
+        this.renderStat(stack, "ranged_speed", this.data.getRangedSpeedBonus(), statX, statY + statOffset * 7);
+        this.renderStat(stack, "movement_speed", this.data.getWalkSwimSpeedBonus(), statX, statY + statOffset * 8);
+        this.renderStat(stack, "skill_points", this.data.skillPoints, statX, statY + statOffset * 9);
 
         super.render(stack, x, y, pt);
 
@@ -90,7 +90,7 @@ public class AttributesScreen extends Screen {
     }
 
     private void renderStat(MatrixStack stack, String name, float value, int x, int y) {
-        String valueString = new DecimalFormat("#").format(value);
+        String valueString = new DecimalFormat("0.##").format(value);
         this.font.draw(stack, new TranslationTextComponent("stat." + SketchBookAttributes.ID + "." + name), x, y, 4210752);
         this.font.draw(stack, valueString, x + 102 - this.font.width(valueString), y, 4210752);
     }
