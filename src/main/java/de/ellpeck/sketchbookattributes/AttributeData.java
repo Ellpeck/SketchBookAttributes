@@ -94,38 +94,37 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
 
     // TODO use this and mana regen in tick event
     public float getHealthRegenPerSecond() {
-        return this.constitution * 0.02F;
+        return this.constitution * SketchBookAttributes.healthRegenPerLevel.get();
     }
 
-    // todo figure out if this should be level-based too
     public float getManaRegenPerSecond() {
-        return 1 / 1.5F;
+        return 1 / 1.5F + this.intelligence * SketchBookAttributes.manaRegenPerLevel.get();
     }
 
     public float getMeleeDamageBonus() {
-        return this.strength * 0.25F;
+        return this.strength * SketchBookAttributes.meleeDamagePerLevel.get();
     }
 
     // TODO apply this to arrows when they spawn, bleh
     public float getRangedDamageBonus() {
-        return this.dexterity * 0.25F;
+        return this.dexterity * SketchBookAttributes.rangedDamagePerLevel.get();
     }
 
     public float getHealthBonus() {
-        return this.constitution;
+        return this.constitution * SketchBookAttributes.healthBonusPerLevel.get();
     }
 
     public float getMeleeSpeedBonus() {
-        return this.agility * 0.1F;
+        return this.agility * SketchBookAttributes.meleeSpeedPerLevel.get();
     }
 
     // TODO apply this to the bow drawing speed using ArrowLooseEvent
     public float getRangedSpeedBonus() {
-        return this.agility * 0.1F;
+        return this.agility * SketchBookAttributes.rangedSpeedPerLevel.get();
     }
 
-    public float getWalkSwimSpeedBonus() {
-        return this.agility * 0.1F;
+    public float getMovementSpeedBonus() {
+        return this.agility * SketchBookAttributes.movementSpeedPerLevel.get();
     }
 
     public void reapplyAttributes() {
@@ -134,7 +133,7 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
         this.reapplyAttribute(Attributes.ATTACK_DAMAGE, MELEE_DAMAGE_ATTRIBUTE, this.getMeleeDamageBonus());
         this.reapplyAttribute(Attributes.MAX_HEALTH, MAX_HEALTH_ATTRIBUTE, this.getHealthBonus());
         this.reapplyAttribute(Attributes.ATTACK_SPEED, MELEE_SPEED_ATTRIBUTE, this.getMeleeSpeedBonus());
-        this.reapplyAttribute(Attributes.MOVEMENT_SPEED, MOVE_SPEED_ATTRIBUTE, this.getWalkSwimSpeedBonus());
+        this.reapplyAttribute(Attributes.MOVEMENT_SPEED, MOVE_SPEED_ATTRIBUTE, this.getMovementSpeedBonus());
     }
 
     public void gainXp(float amount) {
