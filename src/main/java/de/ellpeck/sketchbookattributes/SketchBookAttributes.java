@@ -51,7 +51,7 @@ public class SketchBookAttributes {
                 .define("health_bonus_per_level", 1D);
         meleeSpeedPerLevel = configBuilder
                 .comment("The amount of melee speed that an addditional level of the ability adds")
-                .define("melee_speed_per_level", 0.1);
+                .define("melee_speed_per_level", 0.05);
         rangedSpeedPerLevel = configBuilder
                 .comment("The amount of ranged speed that an addditional level of the ability adds")
                 .define("ranged_speed_per_level", 0.1);
