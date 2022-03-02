@@ -64,7 +64,7 @@ public class Events {
     }
 
     @SubscribeEvent
-    public static void onServerStarting(FMLServerStartingEvent event) {
+    public static void serverStarting(FMLServerStartingEvent event) {
         event.getServer().getCommands().getDispatcher().register(Commands.literal(SketchBookAttributes.ID).requires(s -> s.hasPermission(2))
                 .then(Commands.literal("level").then(Commands.argument("level", IntegerArgumentType.integer(0, AttributeData.MAX_LEVEL)).executes(c -> {
                     CommandSource source = c.getSource();
@@ -83,6 +83,20 @@ public class Events {
                     source.sendSuccess(new TranslationTextComponent("info." + SketchBookAttributes.ID + ".points_set", source.getDisplayName(), data.skillPoints), true);
                     return 0;
                 }))));
+    }
+
+    @SubscribeEvent
+    public static void playerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase != TickEvent.Phase.END)
+            return;
+        if (event.player.level.isClientSide)
+            return;
+        AttributeData data = AttributeData.get(event.player);
+        if (event.player.tickCount % 20 == 0) {
+            data.mana = Math.min(data.maxMana, data.mana + data.getManaRegenPerSecond());
+            event.player.heal(data.getHealthRegenPerSecond());
+            System.out.println(event.player.getHealth());
+        }
     }
 
     @Mod.EventBusSubscriber(Dist.CLIENT)

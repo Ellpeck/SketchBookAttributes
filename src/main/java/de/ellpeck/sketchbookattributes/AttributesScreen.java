@@ -74,7 +74,7 @@ public class AttributesScreen extends Screen {
         int statOffset = 11;
         this.renderStat(stack, "health", this.minecraft.player.getMaxHealth(), statX, statY);
         this.renderStat(stack, "health_regen", this.data.getHealthRegenPerSecond(), statX, statY + statOffset);
-        this.renderStat(stack, "mana", this.data.mana, statX, statY + statOffset * 2);
+        this.renderStat(stack, "mana", this.data.maxMana, statX, statY + statOffset * 2);
         this.renderStat(stack, "mana_regen", this.data.getManaRegenPerSecond(), statX, statY + statOffset * 3);
         this.renderStat(stack, "melee_bonus", this.data.getMeleeDamageBonus(), statX, statY + statOffset * 4);
         this.renderStat(stack, "ranged_bonus", this.data.getRangedDamageBonus(), statX, statY + statOffset * 5);

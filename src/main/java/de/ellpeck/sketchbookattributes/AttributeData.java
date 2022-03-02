@@ -32,7 +32,8 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
     public int constitution;
     public int intelligence;
     public int agility;
-    public int mana = 20;
+    public int maxMana;
+    public float mana;
     public int skillPoints;
 
     private final PlayerEntity player;
@@ -41,6 +42,8 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
     public AttributeData(PlayerEntity player) {
         this.player = player;
         this.lazyThis = LazyOptional.of(() -> this);
+        this.maxMana = 20;
+        this.mana = this.maxMana;
     }
 
     @Override
@@ -53,7 +56,8 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
         nbt.putInt("constitution", this.constitution);
         nbt.putInt("intelligence", this.intelligence);
         nbt.putInt("agility", this.agility);
-        nbt.putInt("mana", this.mana);
+        nbt.putInt("max_mana", this.maxMana);
+        nbt.putFloat("mana", this.mana);
         nbt.putInt("skill_points", this.skillPoints);
         return nbt;
     }
@@ -67,7 +71,8 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
         this.constitution = nbt.getInt("constitution");
         this.intelligence = nbt.getInt("intelligence");
         this.agility = nbt.getInt("agility");
-        this.mana = nbt.getInt("mana");
+        this.maxMana = nbt.getInt("max_mana");
+        this.mana = nbt.getFloat("mana");
         this.skillPoints = nbt.getInt("skill_points");
 
         this.reapplyAttributes();
@@ -92,7 +97,6 @@ public class AttributeData implements ICapabilitySerializable<CompoundNBT> {
         }
     }
 
-    // TODO use this and mana regen in tick event
     public float getHealthRegenPerSecond() {
         return this.constitution * SketchBookAttributes.healthRegenPerLevel.get().floatValue();
     }
