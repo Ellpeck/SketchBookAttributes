@@ -117,6 +117,8 @@ public class Events {
         DamageSource source = event.getSource();
         if (source != null && source.isProjectile()) {
             Entity projectile = source.getDirectEntity();
+
+            // ranged damage bonus
             if (!(projectile instanceof ThrowableEntity) && !(projectile instanceof AbstractFireballEntity)) {
                 Entity shooter = source.getEntity();
                 if (shooter instanceof PlayerEntity) {
@@ -124,6 +126,10 @@ public class Events {
                     event.setAmount(event.getAmount() + attributes.getRangedDamageBonus());
                 }
             }
+
+            // staff meteor damage increase
+            if (projectile.getPersistentData().getBoolean(SketchBookAttributes.ID + ":meteor"))
+                event.setAmount(15);
         }
     }
 

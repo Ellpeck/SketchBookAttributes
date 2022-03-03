@@ -93,7 +93,9 @@ public class StaffItem extends Item {
                             double goalX = target.x + MathHelper.nextDouble(random, -2, 2);
                             double goalZ = target.z + MathHelper.nextDouble(random, -2, 2);
                             Vector3d motion = new Vector3d(goalX - x, target.y - y, goalZ - z).normalize();
-                            level.addFreshEntity(new SmallFireballEntity(level, x, y, z, motion.x, motion.y, motion.z));
+                            SmallFireballEntity meteor = new SmallFireballEntity(level, x, y, z, motion.x, motion.y, motion.z);
+                            meteor.getPersistentData().putBoolean(SketchBookAttributes.ID + ":meteor", true);
+                            level.addFreshEntity(meteor);
                         }
                         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FIRECHARGE_USE, SoundCategory.PLAYERS, 1, 1);
                         break;
