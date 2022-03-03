@@ -9,7 +9,6 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.IFormattableTextComponent;
@@ -85,10 +84,8 @@ public class Events {
                     CommandSource source = c.getSource();
                     PlayerEntity player = source.getPlayerOrException();
                     AttributeData data = AttributeData.get(player.level);
-                    AttributeData.PlayerAttributes attributes = data.getAttributes(player);
-                    // deserializing with empty data is basically a reset :)
-                    attributes.deserializeNBT(new CompoundNBT());
-                    attributes.reapplyAttributes(player);
+                    data.resetAttributes(player.getUUID());
+                    data.getAttributes(player).reapplyAttributes(player);
                     PacketHandler.sendToAll(data.getPacket());
                     source.sendSuccess(new TranslationTextComponent("info." + SketchBookAttributes.ID + ".reset", source.getDisplayName()), true);
                     return 0;
@@ -101,9 +98,14 @@ public class Events {
             return;
         if (event.player.level.isClientSide)
             return;
-        AttributeData.PlayerAttributes attributes = AttributeData.get(event.player.level).getAttributes(event.player);
+        AttributeData data = AttributeData.get(event.player.level);
+        AttributeData.PlayerAttributes attributes = data.getAttributes(event.player);
         if (event.player.tickCount % 20 == 0) {
-            attributes.mana = Math.min(attributes.maxMana, attributes.mana + attributes.getManaRegenPerSecond());
+            float newMana = Math.min(attributes.getMaxMana(), attributes.mana + attributes.getManaRegenPerSecond());
+            if (newMana != attributes.mana) {
+                attributes.mana = newMana;
+                PacketHandler.sendTo(event.player, data.getPacket());
+            }
             event.player.heal(attributes.getHealthRegenPerSecond());
         }
     }
@@ -167,7 +169,7 @@ public class Events {
                 int x = res.getGuiScaledWidth() / 2 + 10;
                 int y = res.getGuiScaledHeight() - (mc.player.isCreative() ? 29 : 45);
                 AbstractGui.blit(stack, x, y, 0, 0, 81, 5, 256, 256);
-                AbstractGui.blit(stack, x, y, 0, 5, (int) (81 * (attributes.mana / attributes.maxMana)), 5, 256, 256);
+                AbstractGui.blit(stack, x, y, 0, 5, (int) (81 * (attributes.mana / attributes.getMaxMana())), 5, 256, 256);
                 stack.popPose();
             }
         }

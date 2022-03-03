@@ -21,6 +21,7 @@ public class SketchBookAttributes {
     public static ConfigValue<Double> meleeDamagePerLevel;
     public static ConfigValue<Double> rangedDamagePerLevel;
     public static ConfigValue<Double> healthBonusPerLevel;
+    public static ConfigValue<Double> manaBonusPerLevel;
     public static ConfigValue<Double> meleeSpeedPerLevel;
     public static ConfigValue<Double> movementSpeedPerLevel;
 
@@ -48,6 +49,9 @@ public class SketchBookAttributes {
         healthBonusPerLevel = configBuilder
                 .comment("The amount of additional health that an addditional level of the ability adds")
                 .define("health_bonus_per_level", 1D);
+        manaBonusPerLevel = configBuilder
+                .comment("The amount of additional mana that an addditional level of the ability adds")
+                .define("mana_bonus_per_level", 1D);
         meleeSpeedPerLevel = configBuilder
                 .comment("The amount of melee speed that an addditional level of the ability adds")
                 .define("melee_speed_per_level", 0.05);

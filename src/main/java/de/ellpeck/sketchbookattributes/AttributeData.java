@@ -71,6 +71,11 @@ public class AttributeData extends WorldSavedData {
         return new PacketHandler.SyncAttributes(this.serializeNBT());
     }
 
+    public void resetAttributes(UUID id) {
+        // attributes will be re-computed when getAttributes is called again
+        this.attributes.remove(id);
+    }
+
     public static AttributeData get(World level) {
         if (level.isClientSide) {
             if (clientData == null || clientData.level != level)
@@ -97,13 +102,11 @@ public class AttributeData extends WorldSavedData {
         public int constitution;
         public int intelligence;
         public int agility;
-        public int maxMana;
         public float mana;
         public int skillPoints;
 
         public PlayerAttributes() {
-            this.maxMana = 20;
-            this.mana = this.maxMana;
+            this.mana = this.getMaxMana();
         }
 
         @Override
@@ -116,7 +119,6 @@ public class AttributeData extends WorldSavedData {
             nbt.putInt("constitution", this.constitution);
             nbt.putInt("intelligence", this.intelligence);
             nbt.putInt("agility", this.agility);
-            nbt.putInt("max_mana", this.maxMana);
             nbt.putFloat("mana", this.mana);
             nbt.putInt("skill_points", this.skillPoints);
             return nbt;
@@ -131,7 +133,6 @@ public class AttributeData extends WorldSavedData {
             this.constitution = nbt.getInt("constitution");
             this.intelligence = nbt.getInt("intelligence");
             this.agility = nbt.getInt("agility");
-            this.maxMana = nbt.getInt("max_mana");
             this.mana = nbt.getFloat("mana");
             this.skillPoints = nbt.getInt("skill_points");
         }
@@ -147,6 +148,10 @@ public class AttributeData extends WorldSavedData {
 
         public float getHealthRegenPerSecond() {
             return this.constitution * SketchBookAttributes.healthRegenPerLevel.get().floatValue();
+        }
+
+        public float getMaxMana() {
+            return 20 + this.intelligence * SketchBookAttributes.manaBonusPerLevel.get().floatValue();
         }
 
         public float getManaRegenPerSecond() {
