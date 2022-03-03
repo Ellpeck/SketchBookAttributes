@@ -60,16 +60,18 @@ public class StaffItem extends Item {
                     case ICE_BALL:
                         break;
                     case JUMP:
-                        applyTargetEffect(player, new EffectInstance(Effects.JUMP, 5 * 20, 1));
+                        applyTargetEffect(player, player, new EffectInstance(Effects.JUMP, 5 * 20, 1));
                         break;
                     case HEAL:
-                        applyTargetEffect(player, new EffectInstance(Effects.HEAL, 0, 1));
+                        applyTargetEffect(player, player, new EffectInstance(Effects.HEAL, 0, 1));
                         break;
                     case SPEED:
-                        applyTargetEffect(player, new EffectInstance(Effects.MOVEMENT_SPEED, 3 * 20, 1));
+                        if (!applyTargetEffect(player, new EffectInstance(Effects.MOVEMENT_SPEED, 3 * 20, 1)))
+                            return ActionResult.fail(stack);
                         break;
                     case STRENGTH:
-                        applyTargetEffect(player, new EffectInstance(Effects.DAMAGE_BOOST, 5 * 20));
+                        if (!applyTargetEffect(player, new EffectInstance(Effects.DAMAGE_BOOST, 5 * 20)))
+                            return ActionResult.fail(stack);
                         break;
                     case METEORS:
                         break;
@@ -105,7 +107,7 @@ public class StaffItem extends Item {
         return new TranslationTextComponent("mode." + SketchBookAttributes.ID + "." + mode.toString().toLowerCase(Locale.ROOT));
     }
 
-    private static void applyTargetEffect(PlayerEntity player, EffectInstance effect) {
+    private static boolean applyTargetEffect(PlayerEntity player, EffectInstance effect) {
         // see GameRenderer.pick for reference
         int range = 40;
         Vector3d eyePos = player.getEyePosition(1);
@@ -115,16 +117,26 @@ public class StaffItem extends Item {
         if (result != null) {
             Entity entity = result.getEntity();
             if (entity instanceof LivingEntity) {
-                ((LivingEntity) entity).addEffect(effect);
-
-                int color = effect.getEffect().getColor();
-                AxisAlignedBB bounds = entity.getBoundingBox().move(-entity.getX(), -entity.getY(), -entity.getZ());
-                ((ServerWorld) player.level).sendParticles(
-                        new RedstoneParticleData((color >> 16 & 255) / 255F, (color >> 8 & 255) / 255F, (color & 255) / 255F, 2),
-                        entity.getX(), entity.getY(), entity.getZ(), 50,
-                        bounds.getXsize() / 2, bounds.getYsize() / 2, bounds.getZsize() / 2, 0);
+                applyTargetEffect(player, (LivingEntity) entity, effect);
+                return true;
             }
         }
+        return false;
+    }
+
+    private static void applyTargetEffect(PlayerEntity player, LivingEntity target, EffectInstance effect) {
+        if (effect.getEffect().isInstantenous()) {
+            effect.getEffect().applyInstantenousEffect(player, player, target, effect.getAmplifier(), 1);
+        } else {
+            target.addEffect(effect);
+        }
+
+        int color = effect.getEffect().getColor();
+        AxisAlignedBB bounds = target.getBoundingBox().move(-target.getX(), -target.getY(), -target.getZ());
+        ((ServerWorld) player.level).sendParticles(
+                new RedstoneParticleData((color >> 16 & 255) / 255F, (color >> 8 & 255) / 255F, (color & 255) / 255F, 2),
+                target.getX(), target.getY(), target.getZ(), 50,
+                bounds.getXsize() / 2, bounds.getYsize() / 2, bounds.getZsize() / 2, 0);
     }
 
     public enum Mode {
