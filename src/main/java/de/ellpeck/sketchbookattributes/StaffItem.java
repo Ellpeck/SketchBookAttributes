@@ -1,17 +1,26 @@
 package de.ellpeck.sketchbookattributes;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.entity.projectile.SmallFireballEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particles.RedstoneParticleData;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Locale;
 
@@ -51,13 +60,22 @@ public class StaffItem extends Item {
                     case ICE_BALL:
                         break;
                     case JUMP:
+                        applyTargetEffect(player, new EffectInstance(Effects.JUMP, 5 * 20, 1));
                         break;
                     case HEAL:
+                        applyTargetEffect(player, new EffectInstance(Effects.HEAL, 0, 1));
                         break;
                     case SPEED:
+                        applyTargetEffect(player, new EffectInstance(Effects.MOVEMENT_SPEED, 3 * 20, 1));
+                        break;
+                    case STRENGTH:
+                        applyTargetEffect(player, new EffectInstance(Effects.MOVEMENT_SPEED, 5 * 20));
+                        break;
+                    case METEORS:
                         break;
                 }
-                attributes.mana -= mode.requiredMana;
+                if (!player.isCreative())
+                    attributes.mana -= mode.requiredMana;
                 PacketHandler.sendTo(player, data.getPacket());
             }
         }
@@ -85,6 +103,28 @@ public class StaffItem extends Item {
 
     private TranslationTextComponent getModeDescription(Mode mode) {
         return new TranslationTextComponent("mode." + SketchBookAttributes.ID + "." + mode.toString().toLowerCase(Locale.ROOT));
+    }
+
+    private static void applyTargetEffect(PlayerEntity player, EffectInstance effect) {
+        // see GameRenderer.pick for reference
+        int range = 40;
+        Vector3d eyePos = player.getEyePosition(1);
+        Vector3d view = player.getViewVector(1).scale(range);
+        AxisAlignedBB area = player.getBoundingBox().expandTowards(view).inflate(1, 1, 1);
+        EntityRayTraceResult result = ProjectileHelper.getEntityHitResult(player, eyePos, eyePos.add(view), area, Entity::isAlive, range * range);
+        if (result != null) {
+            Entity entity = result.getEntity();
+            if (entity instanceof LivingEntity) {
+                ((LivingEntity) entity).addEffect(effect);
+
+                int color = effect.getEffect().getColor();
+                AxisAlignedBB bounds = entity.getBoundingBox().move(-entity.getX(), -entity.getY(), -entity.getZ());
+                ((ServerWorld) player.level).sendParticles(
+                        new RedstoneParticleData((color >> 16 & 255) / 255F, (color >> 8 & 255) / 255F, (color & 255) / 255F, 2),
+                        entity.getX(), entity.getY(), entity.getZ(), 50,
+                        bounds.getXsize() / 2, bounds.getYsize() / 2, bounds.getZsize() / 2, 0);
+            }
+        }
     }
 
     public enum Mode {
