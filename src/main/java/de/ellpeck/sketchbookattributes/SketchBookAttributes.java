@@ -69,7 +69,7 @@ public class SketchBookAttributes {
                 .define("melee_damage_per_level", 0.25);
         rangedDamagePerLevel = configBuilder
                 .comment("The amount of ranged damage that an addditional level of the ability adds")
-                .define("ranged_damage_per_level", 0.25);
+                .define("ranged_damage_per_level", 0.15);
         healthBonusPerLevel = configBuilder
                 .comment("The amount of additional health that an addditional level of the ability adds")
                 .define("health_bonus_per_level", 1D);

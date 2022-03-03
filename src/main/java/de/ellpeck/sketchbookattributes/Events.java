@@ -129,7 +129,7 @@ public class Events {
 
             // staff meteor damage increase
             if (projectile.getPersistentData().getBoolean(SketchBookAttributes.ID + ":meteor"))
-                event.setAmount(15);
+                event.setAmount(80);
         }
     }
 
