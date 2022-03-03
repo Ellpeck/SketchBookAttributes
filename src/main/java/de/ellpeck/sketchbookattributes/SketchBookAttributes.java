@@ -1,19 +1,34 @@
 package de.ellpeck.sketchbookattributes;
 
+import de.ellpeck.sketchbookattributes.StaffItem.Mode;
+import net.minecraft.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod(SketchBookAttributes.ID)
 public class SketchBookAttributes {
 
     public static final String ID = "sketchbookattributes";
+
+    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ID);
+    public static final RegistryObject<StaffItem> STAFF_TIER_1 = ITEMS.register("staff_tier_1",
+            () -> new StaffItem(Mode.FIRE_BALL));
+    public static final RegistryObject<StaffItem> STAFF_TIER_2 = ITEMS.register("staff_tier_2",
+            () -> new StaffItem(Mode.FIRE_BALL, Mode.JUMP, Mode.ICE_BALL));
+    public static final RegistryObject<StaffItem> STAFF_TIER_3 = ITEMS.register("staff_tier_3",
+            () -> new StaffItem(Mode.FIRE_BALL, Mode.JUMP, Mode.ICE_BALL, Mode.HEAL, Mode.SPEED));
+    public static final RegistryObject<StaffItem> STAFF_MASTER = ITEMS.register("staff_master",
+            () -> new StaffItem(Mode.FIRE_BALL, Mode.JUMP, Mode.ICE_BALL, Mode.HEAL, Mode.SPEED, Mode.STRENGTH, Mode.METEORS));
 
     public static ConfigValue<Double> xpNeededMultiplier;
     public static ConfigValue<Double> healthRegenPerLevel;
@@ -29,6 +44,7 @@ public class SketchBookAttributes {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(Registry::setup);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> bus.addListener(Registry.Client::setup));
+        ITEMS.register(bus);
 
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
         xpNeededMultiplier = configBuilder

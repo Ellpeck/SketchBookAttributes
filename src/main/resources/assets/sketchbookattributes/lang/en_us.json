@@ -23,5 +23,16 @@
     "stat.sketchbookattributes.mana_regen": "Mana Regen/s",
     "stat.sketchbookattributes.melee_speed": "Melee Speed+",
     "stat.sketchbookattributes.movement_speed": "Move Speed+",
-    "stat.sketchbookattributes.skill_points": "Skill Points"
+    "stat.sketchbookattributes.skill_points": "Skill Points",
+    "mode.sketchbookattributes.fire_ball": "Fireball",
+    "mode.sketchbookattributes.ice_ball": "Ice Ball",
+    "mode.sketchbookattributes.jump": "Jump",
+    "mode.sketchbookattributes.heal": "Heal",
+    "mode.sketchbookattributes.speed": "Speed",
+    "mode.sketchbookattributes.strength": "Strength",
+    "mode.sketchbookattributes.meteors": "Meteor Shower",
+    "item.sketchbookattributes.staff_tier_1": "Magic Staff Tier 1",
+    "item.sketchbookattributes.staff_tier_2": "Magic Staff Tier 2",
+    "item.sketchbookattributes.staff_tier_3": "Magic Staff Tier 3",
+    "item.sketchbookattributes.staff_master": "Master Staff"
 }
