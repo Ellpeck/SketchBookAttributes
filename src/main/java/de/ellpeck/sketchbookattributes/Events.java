@@ -7,6 +7,7 @@ import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -15,6 +16,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderNameplateEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerXpEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -98,6 +100,18 @@ public class Events {
         if (event.player.tickCount % 20 == 0) {
             attributes.mana = Math.min(attributes.maxMana, attributes.mana + attributes.getManaRegenPerSecond());
             event.player.heal(attributes.getHealthRegenPerSecond());
+        }
+    }
+
+    @SubscribeEvent
+    public static void livingHurt(LivingHurtEvent event) {
+        DamageSource source = event.getSource();
+        if (source != null && source.isProjectile()) {
+            Entity shooter = source.getEntity();
+            if (shooter instanceof PlayerEntity) {
+                AttributeData.PlayerAttributes attributes = AttributeData.get(shooter.level).getAttributes((PlayerEntity) shooter);
+                event.setAmount(event.getAmount() + attributes.getRangedDamageBonus());
+            }
         }
     }
 

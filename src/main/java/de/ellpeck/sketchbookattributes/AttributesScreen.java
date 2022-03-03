@@ -70,8 +70,8 @@ public class AttributesScreen extends Screen {
             attribute.render(stack);
 
         int statX = left + 150;
-        int statY = top + 43;
-        int statOffset = 11;
+        int statY = top + 44;
+        int statOffset = 12;
         this.renderStat(stack, "health", this.minecraft.player.getMaxHealth(), statX, statY);
         this.renderStat(stack, "health_regen", this.data.getHealthRegenPerSecond(), statX, statY + statOffset);
         this.renderStat(stack, "mana", this.data.maxMana, statX, statY + statOffset * 2);
@@ -79,9 +79,8 @@ public class AttributesScreen extends Screen {
         this.renderStat(stack, "melee_bonus", this.data.getMeleeDamageBonus(), statX, statY + statOffset * 4);
         this.renderStat(stack, "ranged_bonus", this.data.getRangedDamageBonus(), statX, statY + statOffset * 5);
         this.renderStat(stack, "melee_speed", this.data.getMeleeSpeedBonus(), statX, statY + statOffset * 6);
-        this.renderStat(stack, "ranged_speed", this.data.getRangedSpeedBonus(), statX, statY + statOffset * 7);
-        this.renderStat(stack, "movement_speed", this.data.getMovementSpeedBonus(), statX, statY + statOffset * 8);
-        this.renderStat(stack, "skill_points", this.data.skillPoints, statX, statY + statOffset * 9);
+        this.renderStat(stack, "movement_speed", this.data.getMovementSpeedBonus(), statX, statY + statOffset * 7);
+        this.renderStat(stack, "skill_points", this.data.skillPoints, statX, statY + statOffset * 8);
 
         super.render(stack, x, y, pt);
 

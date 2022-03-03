@@ -157,7 +157,6 @@ public class AttributeData extends WorldSavedData {
             return this.strength * SketchBookAttributes.meleeDamagePerLevel.get().floatValue();
         }
 
-        // TODO apply this to arrows when they spawn, bleh
         public float getRangedDamageBonus() {
             return this.dexterity * SketchBookAttributes.rangedDamagePerLevel.get().floatValue();
         }
@@ -168,11 +167,6 @@ public class AttributeData extends WorldSavedData {
 
         public float getMeleeSpeedBonus() {
             return this.agility * SketchBookAttributes.meleeSpeedPerLevel.get().floatValue();
-        }
-
-        // TODO apply this to the bow drawing speed using ArrowLooseEvent
-        public float getRangedSpeedBonus() {
-            return this.agility * SketchBookAttributes.rangedSpeedPerLevel.get().floatValue();
         }
 
         public float getMovementSpeedBonus() {
