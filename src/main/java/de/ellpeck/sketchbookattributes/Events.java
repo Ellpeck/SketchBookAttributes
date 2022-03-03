@@ -1,18 +1,23 @@
 package de.ellpeck.sketchbookattributes;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderNameplateEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -118,6 +123,8 @@ public class Events {
     @Mod.EventBusSubscriber(Dist.CLIENT)
     public static class Client {
 
+        private static final ResourceLocation MANA = new ResourceLocation(SketchBookAttributes.ID, "textures/ui/mana.png");
+
         @SubscribeEvent
         public static void renderNameplate(RenderNameplateEvent event) {
             Entity entity = event.getEntity();
@@ -138,6 +145,30 @@ public class Events {
             if (mc.screen == null && Registry.Client.OPEN_KEYBIND.consumeClick()) {
                 AttributeData.PlayerAttributes data = AttributeData.get(mc.player.level).getAttributes(mc.player);
                 mc.setScreen(new AttributesScreen(data));
+            }
+        }
+
+        @SubscribeEvent
+        public static void onOverlayRender(RenderGameOverlayEvent.Post event) {
+            if (event.getType() != RenderGameOverlayEvent.ElementType.ALL)
+                return;
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.player == null)
+                return;
+            AttributeData data = AttributeData.get(mc.player.level);
+            AttributeData.PlayerAttributes attributes = data.getAttributes(mc.player);
+            MatrixStack stack = event.getMatrixStack();
+            MainWindow res = event.getWindow();
+
+            // display mana bar
+            if (!mc.player.isSpectator()) {
+                stack.pushPose();
+                mc.textureManager.bind(MANA);
+                int x = res.getGuiScaledWidth() / 2 + 10;
+                int y = res.getGuiScaledHeight() - (mc.player.isCreative() ? 29 : 45);
+                AbstractGui.blit(stack, x, y, 0, 0, 81, 5, 256, 256);
+                AbstractGui.blit(stack, x, y, 0, 5, (int) (81 * (attributes.mana / attributes.maxMana)), 5, 256, 256);
+                stack.popPose();
             }
         }
     }
