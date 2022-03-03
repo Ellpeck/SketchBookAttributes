@@ -1,6 +1,8 @@
 package de.ellpeck.sketchbookattributes;
 
 import de.ellpeck.sketchbookattributes.StaffItem.Mode;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -21,6 +23,8 @@ public class SketchBookAttributes {
     public static final String ID = "sketchbookattributes";
 
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ID);
+    private static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, ID);
+
     public static final RegistryObject<StaffItem> STAFF_TIER_1 = ITEMS.register("staff_tier_1",
             () -> new StaffItem(Mode.FIRE_BALL));
     public static final RegistryObject<StaffItem> STAFF_TIER_2 = ITEMS.register("staff_tier_2",
@@ -29,6 +33,9 @@ public class SketchBookAttributes {
             () -> new StaffItem(Mode.FIRE_BALL, Mode.JUMP, Mode.ICE_BALL, Mode.HEAL, Mode.SPEED));
     public static final RegistryObject<StaffItem> STAFF_MASTER = ITEMS.register("staff_master",
             () -> new StaffItem(Mode.FIRE_BALL, Mode.JUMP, Mode.ICE_BALL, Mode.HEAL, Mode.SPEED, Mode.STRENGTH, Mode.METEORS));
+
+    public static final RegistryObject<EntityType<IceBallEntity>> ICE_BALL = ENTITIES.register("ice_ball",
+            () -> EntityType.Builder.<IceBallEntity>of(IceBallEntity::new, EntityClassification.MISC).build("ice_ball"));
 
     public static ConfigValue<Double> xpNeededMultiplier;
     public static ConfigValue<Double> healthRegenPerLevel;
@@ -45,6 +52,7 @@ public class SketchBookAttributes {
         bus.addListener(Registry::setup);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> bus.addListener(Registry.Client::setup));
         ITEMS.register(bus);
+        ENTITIES.register(bus);
 
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
         xpNeededMultiplier = configBuilder

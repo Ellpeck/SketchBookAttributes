@@ -13,6 +13,8 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
@@ -21,6 +23,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Locale;
 
@@ -39,7 +42,7 @@ public class StaffItem extends Item {
         Mode mode = this.getMode(stack);
         if (player.isShiftKeyDown()) {
             if (!level.isClientSide) {
-                Mode nextMode = this.allowedModes[(mode.ordinal() + 1) % this.allowedModes.length];
+                Mode nextMode = this.allowedModes[(ArrayUtils.indexOf(this.allowedModes, mode) + 1) % this.allowedModes.length];
                 this.setMode(stack, nextMode);
             }
         } else {
@@ -49,15 +52,19 @@ public class StaffItem extends Item {
                 return ActionResult.fail(stack);
 
             if (!level.isClientSide) {
+                Vector3d view = player.getViewVector(1);
                 switch (mode) {
                     case FIRE_BALL:
-                        Vector3d view = player.getViewVector(1);
                         SmallFireballEntity fireball = new SmallFireballEntity(level, player, view.x, view.y, view.z);
                         fireball.setPos(player.getX(), player.getEyeY(), player.getZ());
                         level.addFreshEntity(fireball);
-                        level.levelEvent(null, 1018, player.blockPosition(), 0);
+                        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FIRECHARGE_USE, SoundCategory.PLAYERS, 1, 1);
                         break;
                     case ICE_BALL:
+                        IceBallEntity iceBall = new IceBallEntity(SketchBookAttributes.ICE_BALL.get(), player, view.x, view.y, view.z, level);
+                        iceBall.setPos(player.getX(), player.getEyeY(), player.getZ());
+                        level.addFreshEntity(iceBall);
+                        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.BOAT_PADDLE_WATER, SoundCategory.PLAYERS, 1, 1);
                         break;
                     case JUMP:
                         applyTargetEffect(player, player, new EffectInstance(Effects.JUMP, 5 * 20, 1));
