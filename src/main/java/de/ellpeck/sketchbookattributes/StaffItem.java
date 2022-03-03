@@ -1,11 +1,13 @@
 package de.ellpeck.sketchbookattributes;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.SmallFireballEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -40,6 +42,11 @@ public class StaffItem extends Item {
             if (!level.isClientSide) {
                 switch (mode) {
                     case FIRE_BALL:
+                        Vector3d view = player.getViewVector(1);
+                        SmallFireballEntity fireball = new SmallFireballEntity(level, player, view.x, view.y, view.z);
+                        fireball.setPos(player.getX(), player.getEyeY(), player.getZ());
+                        level.addFreshEntity(fireball);
+                        level.levelEvent(null, 1018, player.blockPosition(), 0);
                         break;
                     case ICE_BALL:
                         break;
