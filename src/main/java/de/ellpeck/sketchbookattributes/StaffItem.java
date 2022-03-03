@@ -15,8 +15,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.*;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
@@ -28,6 +27,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.util.Locale;
 
 public class StaffItem extends Item {
+
+    private static final int RANGE = 40;
 
     private final Mode[] allowedModes;
 
@@ -81,6 +82,20 @@ public class StaffItem extends Item {
                             return ActionResult.fail(stack);
                         break;
                     case METEORS:
+                        BlockRayTraceResult ray = (BlockRayTraceResult) player.pick(RANGE, 1, false);
+                        if (ray.getType() == RayTraceResult.Type.MISS)
+                            return ActionResult.fail(stack);
+                        Vector3d target = ray.getLocation();
+                        for (int i = 0; i < 15; i++) {
+                            double x = target.x + MathHelper.nextDouble(random, -10, 10);
+                            double y = target.y + MathHelper.nextDouble(random, 15, 20);
+                            double z = target.z + MathHelper.nextDouble(random, -10, 10);
+                            double goalX = target.x + MathHelper.nextDouble(random, -2, 2);
+                            double goalZ = target.z + MathHelper.nextDouble(random, -2, 2);
+                            Vector3d motion = new Vector3d(goalX - x, target.y - y, goalZ - z).normalize();
+                            level.addFreshEntity(new SmallFireballEntity(level, x, y, z, motion.x, motion.y, motion.z));
+                        }
+                        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FIRECHARGE_USE, SoundCategory.PLAYERS, 1, 1);
                         break;
                 }
                 if (!player.isCreative())
@@ -116,11 +131,10 @@ public class StaffItem extends Item {
 
     private static boolean applyTargetEffect(PlayerEntity player, EffectInstance effect) {
         // see GameRenderer.pick for reference
-        int range = 40;
         Vector3d eyePos = player.getEyePosition(1);
-        Vector3d view = player.getViewVector(1).scale(range);
+        Vector3d view = player.getViewVector(1).scale(RANGE);
         AxisAlignedBB area = player.getBoundingBox().expandTowards(view).inflate(1, 1, 1);
-        EntityRayTraceResult result = ProjectileHelper.getEntityHitResult(player, eyePos, eyePos.add(view), area, Entity::isAlive, range * range);
+        EntityRayTraceResult result = ProjectileHelper.getEntityHitResult(player, eyePos, eyePos.add(view), area, Entity::isAlive, RANGE * RANGE);
         if (result != null) {
             Entity entity = result.getEntity();
             if (entity instanceof LivingEntity) {
