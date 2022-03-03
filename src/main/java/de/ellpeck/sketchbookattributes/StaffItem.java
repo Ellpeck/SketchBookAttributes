@@ -69,7 +69,7 @@ public class StaffItem extends Item {
                         applyTargetEffect(player, new EffectInstance(Effects.MOVEMENT_SPEED, 3 * 20, 1));
                         break;
                     case STRENGTH:
-                        applyTargetEffect(player, new EffectInstance(Effects.MOVEMENT_SPEED, 5 * 20));
+                        applyTargetEffect(player, new EffectInstance(Effects.DAMAGE_BOOST, 5 * 20));
                         break;
                     case METEORS:
                         break;
