@@ -9,6 +9,8 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.AbstractFireballEntity;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.IFormattableTextComponent;
@@ -114,10 +116,13 @@ public class Events {
     public static void livingHurt(LivingHurtEvent event) {
         DamageSource source = event.getSource();
         if (source != null && source.isProjectile()) {
-            Entity shooter = source.getEntity();
-            if (shooter instanceof PlayerEntity) {
-                AttributeData.PlayerAttributes attributes = AttributeData.get(shooter.level).getAttributes((PlayerEntity) shooter);
-                event.setAmount(event.getAmount() + attributes.getRangedDamageBonus());
+            Entity projectile = source.getDirectEntity();
+            if (!(projectile instanceof ThrowableEntity) && !(projectile instanceof AbstractFireballEntity)) {
+                Entity shooter = source.getEntity();
+                if (shooter instanceof PlayerEntity) {
+                    AttributeData.PlayerAttributes attributes = AttributeData.get(shooter.level).getAttributes((PlayerEntity) shooter);
+                    event.setAmount(event.getAmount() + attributes.getRangedDamageBonus());
+                }
             }
         }
     }
