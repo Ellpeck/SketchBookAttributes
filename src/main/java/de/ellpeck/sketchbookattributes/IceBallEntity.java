@@ -81,7 +81,7 @@ public class IceBallEntity extends AbstractFireballEntity {
             Entity entity = ray.getEntity();
             entity.hurt(DamageSource.thrown(this, this.getOwner()), 5);
             if (entity instanceof LivingEntity)
-                ((LivingEntity) entity).addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 3 * 20, 0));
+                ((LivingEntity) entity).addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 3 * 20, 3));
         }
     }
 
