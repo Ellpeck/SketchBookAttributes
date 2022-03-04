@@ -1,6 +1,7 @@
 package de.ellpeck.sketchbookattributes;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
@@ -11,8 +12,16 @@ import java.util.function.Predicate;
 
 public class Utility {
 
+    public static EntityRayTraceResult pickEntity(PlayerEntity player, double range) {
+        // see GameRenderer.pick for reference
+        Vector3d eyePos = player.getEyePosition(1);
+        Vector3d view = player.getViewVector(1).scale(range);
+        AxisAlignedBB area = player.getBoundingBox().expandTowards(view).inflate(1, 1, 1);
+        return Utility.getEntityHitResult(player, eyePos, eyePos.add(view), area, Entity::isAlive, range * range);
+    }
+
     // non-client-only copy of ProjectileHelper
-    public static EntityRayTraceResult getEntityHitResult(Entity p_221273_0_, Vector3d p_221273_1_, Vector3d p_221273_2_, AxisAlignedBB p_221273_3_, Predicate<Entity> p_221273_4_, double p_221273_5_) {
+    private static EntityRayTraceResult getEntityHitResult(Entity p_221273_0_, Vector3d p_221273_1_, Vector3d p_221273_2_, AxisAlignedBB p_221273_3_, Predicate<Entity> p_221273_4_, double p_221273_5_) {
         World world = p_221273_0_.level;
         double d0 = p_221273_5_;
         Entity entity = null;

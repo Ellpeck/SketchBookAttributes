@@ -81,8 +81,10 @@ public class StaffItem extends Item {
                             return ActionResult.fail(stack);
                         break;
                     case METEORS:
-                        BlockRayTraceResult ray = (BlockRayTraceResult) player.pick(RANGE, 1, false);
+                        RayTraceResult ray = player.pick(RANGE, 1, false);
                         if (ray.getType() == RayTraceResult.Type.MISS)
+                            ray = Utility.pickEntity(player, RANGE);
+                        if (ray == null)
                             return ActionResult.fail(stack);
                         Vector3d target = ray.getLocation();
                         for (int i = 0; i < 15; i++) {
@@ -131,11 +133,7 @@ public class StaffItem extends Item {
     }
 
     private static boolean applyTargetEffect(PlayerEntity player, EffectInstance effect) {
-        // see GameRenderer.pick for reference
-        Vector3d eyePos = player.getEyePosition(1);
-        Vector3d view = player.getViewVector(1).scale(RANGE);
-        AxisAlignedBB area = player.getBoundingBox().expandTowards(view).inflate(1, 1, 1);
-        EntityRayTraceResult result = Utility.getEntityHitResult(player, eyePos, eyePos.add(view), area, Entity::isAlive, RANGE * RANGE);
+        EntityRayTraceResult result = Utility.pickEntity(player, RANGE);
         if (result != null) {
             Entity entity = result.getEntity();
             if (entity instanceof LivingEntity) {
