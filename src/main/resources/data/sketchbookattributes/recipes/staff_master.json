@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " GP",
+        " SG",
+        "P  "
+    ],
+    "key": {
+        "S": {
+            "item": "minecraft:blaze_rod"
+        },
+        "P": {
+            "item": "minecraft:emerald"
+        },
+        "G": {
+            "item": "minecraft:diamond"
+        }
+    },
+    "result": {
+        "item": "sketchbookattributes:staff_master"
+    }
+}

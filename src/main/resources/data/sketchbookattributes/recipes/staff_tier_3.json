@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " GP",
+        " SG",
+        "S  "
+    ],
+    "key": {
+        "S": {
+            "item": "minecraft:stick"
+        },
+        "P": {
+            "item": "minecraft:diamond"
+        },
+        "G": {
+            "item": "minecraft:emerald"
+        }
+    },
+    "result": {
+        "item": "sketchbookattributes:staff_tier_3"
+    }
+}
