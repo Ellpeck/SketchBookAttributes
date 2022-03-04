@@ -13,6 +13,8 @@ import net.minecraft.entity.projectile.AbstractFireballEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -22,6 +24,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderNameplateEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerXpEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -33,7 +36,7 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 public class Events {
 
     @SubscribeEvent
-    public static void playerJoinedWorld(EntityJoinWorldEvent event) {
+    public static void entityJoinWorld(EntityJoinWorldEvent event) {
         Entity entity = event.getEntity();
         if (entity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entity;
@@ -44,6 +47,14 @@ public class Events {
                 PacketHandler.sendTo(player, data.getPacket());
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void entityLeaveWorld(EntityLeaveWorldEvent event) {
+        Entity entity = event.getEntity();
+        // staff meteor sound
+        if (entity.getPersistentData().getBoolean(SketchBookAttributes.ID + ":meteor"))
+            entity.level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.GENERIC_EXPLODE, SoundCategory.BLOCKS, 0.75F, 1);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
