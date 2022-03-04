@@ -82,7 +82,7 @@ public class AttributeData extends WorldSavedData {
                 clientData = new AttributeData(level);
             return clientData;
         } else {
-            return ((ServerWorld) level).getDataStorage().computeIfAbsent(() -> new AttributeData(level), NAME);
+            return ((ServerWorld) level).getServer().overworld().getDataStorage().computeIfAbsent(() -> new AttributeData(level), NAME);
         }
     }
 
