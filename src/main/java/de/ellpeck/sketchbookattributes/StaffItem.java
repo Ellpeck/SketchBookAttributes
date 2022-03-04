@@ -3,7 +3,6 @@ package de.ellpeck.sketchbookattributes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.entity.projectile.SmallFireballEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -49,7 +48,7 @@ public class StaffItem extends Item {
         } else {
             AttributeData data = AttributeData.get(level);
             AttributeData.PlayerAttributes attributes = data.getAttributes(player);
-            if (attributes.mana < mode.requiredMana)
+            if (!player.isCreative() && attributes.mana < mode.requiredMana)
                 return ActionResult.fail(stack);
 
             if (!level.isClientSide) {
@@ -136,7 +135,7 @@ public class StaffItem extends Item {
         Vector3d eyePos = player.getEyePosition(1);
         Vector3d view = player.getViewVector(1).scale(RANGE);
         AxisAlignedBB area = player.getBoundingBox().expandTowards(view).inflate(1, 1, 1);
-        EntityRayTraceResult result = ProjectileHelper.getEntityHitResult(player, eyePos, eyePos.add(view), area, Entity::isAlive, RANGE * RANGE);
+        EntityRayTraceResult result = Utility.getEntityHitResult(player, eyePos, eyePos.add(view), area, Entity::isAlive, RANGE * RANGE);
         if (result != null) {
             Entity entity = result.getEntity();
             if (entity instanceof LivingEntity) {
