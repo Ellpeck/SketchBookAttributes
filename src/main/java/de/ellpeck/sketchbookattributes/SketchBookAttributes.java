@@ -63,7 +63,7 @@ public class SketchBookAttributes {
                 .define("health_regen_per_level", 0.04);
         manaRegenPerLevel = configBuilder
                 .comment("The amount of mana regen that an additional level of the ability adds per second")
-                .define("mana_regen_per_level", 0.02);
+                .define("mana_regen_per_level", 0.04);
         meleeDamagePerLevel = configBuilder
                 .comment("The amount of melee damage that an addditional level of the ability adds")
                 .define("melee_damage_per_level", 0.25);
@@ -75,7 +75,7 @@ public class SketchBookAttributes {
                 .define("health_bonus_per_level", 1D);
         manaBonusPerLevel = configBuilder
                 .comment("The amount of additional mana that an addditional level of the ability adds")
-                .define("mana_bonus_per_level", 1D);
+                .define("mana_bonus_per_level", 1.5D);
         meleeSpeedPerLevel = configBuilder
                 .comment("The amount of melee speed that an addditional level of the ability adds")
                 .define("melee_speed_per_level", 0.05);
