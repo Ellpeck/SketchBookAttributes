@@ -81,10 +81,10 @@ public class StaffItem extends Item {
                             return ActionResult.fail(stack);
                         break;
                     case METEORS:
-                        RayTraceResult ray = player.pick(RANGE, 1, false);
-                        if (ray.getType() == RayTraceResult.Type.MISS)
-                            ray = Utility.pickEntity(player, RANGE);
+                        RayTraceResult ray = Utility.pickEntity(player, RANGE);
                         if (ray == null)
+                            ray = player.pick(RANGE, 1, false);
+                        if (ray.getType() == RayTraceResult.Type.MISS)
                             return ActionResult.fail(stack);
                         Vector3d target = ray.getLocation();
                         for (int i = 0; i < 15; i++) {
