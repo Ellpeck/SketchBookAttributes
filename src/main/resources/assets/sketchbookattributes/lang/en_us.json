@@ -1,6 +1,7 @@
 {
     "info.sketchbookattributes.level": "Lvl %s",
     "info.sketchbookattributes.screen": "Player Attributes",
+    "info.sketchbookattributes.classes": "Class Selector",
     "info.sketchbookattributes.level_set": "Set level for %s to %s",
     "info.sketchbookattributes.points_set": "Set skill points for %s to %s",
     "info.sketchbookattributes.reset": "Reset attribute data for %s",
@@ -15,6 +16,9 @@
     "attribute.sketchbookattributes.constitution.description": "Gives increased health and health regeneration",
     "attribute.sketchbookattributes.intelligence.description": "Gives increased mana and mana regeneration",
     "attribute.sketchbookattributes.agility.description": "Gives increased attack and movement speeds",
+    "class.sketchbookattributes.fighter": "Fighter",
+    "class.sketchbookattributes.ranger": "Ranger",
+    "class.sketchbookattributes.spellcaster": "Spellcaster",
     "stat.sketchbookattributes.health": "Health",
     "stat.sketchbookattributes.melee_bonus": "Melee Damage+",
     "stat.sketchbookattributes.ranged_bonus": "Ranged Damage+",

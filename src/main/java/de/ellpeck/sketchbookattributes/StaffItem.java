@@ -1,5 +1,8 @@
 package de.ellpeck.sketchbookattributes;
 
+import de.ellpeck.sketchbookattributes.data.AttributeData;
+import de.ellpeck.sketchbookattributes.data.PlayerAttributes;
+import de.ellpeck.sketchbookattributes.network.PacketHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -47,7 +50,7 @@ public class StaffItem extends Item {
             }
         } else {
             AttributeData data = AttributeData.get(level);
-            AttributeData.PlayerAttributes attributes = data.getAttributes(player);
+            PlayerAttributes attributes = data.getAttributes(player);
             if (!player.isCreative() && attributes.mana < mode.requiredMana)
                 return ActionResult.fail(stack);
 

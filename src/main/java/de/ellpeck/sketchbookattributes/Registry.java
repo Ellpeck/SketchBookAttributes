@@ -1,5 +1,6 @@
 package de.ellpeck.sketchbookattributes;
 
+import de.ellpeck.sketchbookattributes.network.PacketHandler;
 import net.minecraft.client.renderer.entity.SpriteRenderer;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.fml.client.registry.ClientRegistry;

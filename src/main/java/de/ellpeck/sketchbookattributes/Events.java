@@ -2,6 +2,11 @@ package de.ellpeck.sketchbookattributes;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import de.ellpeck.sketchbookattributes.data.AttributeData;
+import de.ellpeck.sketchbookattributes.data.PlayerAttributes;
+import de.ellpeck.sketchbookattributes.network.PacketHandler;
+import de.ellpeck.sketchbookattributes.ui.AttributesScreen;
+import de.ellpeck.sketchbookattributes.ui.ClassesScreen;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -42,7 +47,7 @@ public class Events {
             PlayerEntity player = (PlayerEntity) entity;
             if (!player.level.isClientSide) {
                 AttributeData data = AttributeData.get(player.level);
-                AttributeData.PlayerAttributes attributes = data.getAttributes(player);
+                PlayerAttributes attributes = data.getAttributes(player);
                 attributes.reapplyAttributes(player);
                 PacketHandler.sendTo(player, data.getPacket());
             }
@@ -64,7 +69,7 @@ public class Events {
         if (player.level.isClientSide || amount <= 0)
             return;
         AttributeData data = AttributeData.get(player.level);
-        AttributeData.PlayerAttributes attributes = data.getAttributes(player);
+        PlayerAttributes attributes = data.getAttributes(player);
         if (attributes.gainXp(amount))
             PacketHandler.sendToAll(data.getPacket());
     }
@@ -72,11 +77,11 @@ public class Events {
     @SubscribeEvent
     public static void serverStarting(FMLServerStartingEvent event) {
         event.getServer().getCommands().getDispatcher().register(Commands.literal(SketchBookAttributes.ID).requires(s -> s.hasPermission(2))
-                .then(Commands.literal("level").then(Commands.argument("level", IntegerArgumentType.integer(0, AttributeData.PlayerAttributes.MAX_LEVEL)).executes(c -> {
+                .then(Commands.literal("level").then(Commands.argument("level", IntegerArgumentType.integer(0, PlayerAttributes.MAX_LEVEL)).executes(c -> {
                     CommandSource source = c.getSource();
                     PlayerEntity player = source.getPlayerOrException();
                     AttributeData data = AttributeData.get(player.level);
-                    AttributeData.PlayerAttributes attributes = data.getAttributes(player);
+                    PlayerAttributes attributes = data.getAttributes(player);
                     attributes.level = IntegerArgumentType.getInteger(c, "level");
                     attributes.pointsToNextLevel = 0;
                     PacketHandler.sendToAll(data.getPacket());
@@ -87,7 +92,7 @@ public class Events {
                     CommandSource source = c.getSource();
                     PlayerEntity player = source.getPlayerOrException();
                     AttributeData data = AttributeData.get(player.level);
-                    AttributeData.PlayerAttributes attributes = data.getAttributes(player);
+                    PlayerAttributes attributes = data.getAttributes(player);
                     attributes.skillPoints = IntegerArgumentType.getInteger(c, "points");
                     PacketHandler.sendToAll(data.getPacket());
                     source.sendSuccess(new TranslationTextComponent("info." + SketchBookAttributes.ID + ".points_set", source.getDisplayName(), attributes.skillPoints), true);
@@ -112,7 +117,7 @@ public class Events {
         if (event.player.level.isClientSide)
             return;
         AttributeData data = AttributeData.get(event.player.level);
-        AttributeData.PlayerAttributes attributes = data.getAttributes(event.player);
+        PlayerAttributes attributes = data.getAttributes(event.player);
         if (event.player.tickCount % 20 == 0) {
             float newMana = Math.min(attributes.getMaxMana(), attributes.mana + attributes.getManaRegenPerSecond());
             if (newMana != attributes.mana) {
@@ -133,7 +138,7 @@ public class Events {
             if (!(projectile instanceof ThrowableEntity) && !(projectile instanceof AbstractFireballEntity)) {
                 Entity shooter = source.getEntity();
                 if (shooter instanceof PlayerEntity) {
-                    AttributeData.PlayerAttributes attributes = AttributeData.get(shooter.level).getAttributes((PlayerEntity) shooter);
+                    PlayerAttributes attributes = AttributeData.get(shooter.level).getAttributes((PlayerEntity) shooter);
                     event.setAmount(event.getAmount() + attributes.getRangedDamageBonus());
                 }
             }
@@ -154,7 +159,7 @@ public class Events {
             Entity entity = event.getEntity();
             ITextComponent content = event.getContent();
             if (entity instanceof PlayerEntity && content instanceof IFormattableTextComponent) {
-                AttributeData.PlayerAttributes attributes = AttributeData.get(entity.level).getAttributes((PlayerEntity) entity);
+                PlayerAttributes attributes = AttributeData.get(entity.level).getAttributes((PlayerEntity) entity);
                 ((IFormattableTextComponent) content)
                         .append(" ")
                         .append(new TranslationTextComponent("info." + SketchBookAttributes.ID + ".level", attributes.level).withStyle(TextFormatting.GOLD));
@@ -166,9 +171,13 @@ public class Events {
             if (event.phase != TickEvent.Phase.START)
                 return;
             Minecraft mc = Minecraft.getInstance();
-            if (mc.screen == null && Registry.Client.OPEN_KEYBIND.consumeClick()) {
-                AttributeData.PlayerAttributes data = AttributeData.get(mc.player.level).getAttributes(mc.player);
-                mc.setScreen(new AttributesScreen(data));
+            if (mc.screen == null) {
+                PlayerAttributes data = AttributeData.get(mc.player.level).getAttributes(mc.player);
+                if (Registry.Client.OPEN_KEYBIND.consumeClick()) {
+                    mc.setScreen(new AttributesScreen(data));
+                } else if (data.playerClass == null) {
+                    mc.setScreen(new ClassesScreen(data));
+                }
             }
         }
 
@@ -180,7 +189,7 @@ public class Events {
             if (mc.player == null)
                 return;
             AttributeData data = AttributeData.get(mc.player.level);
-            AttributeData.PlayerAttributes attributes = data.getAttributes(mc.player);
+            PlayerAttributes attributes = data.getAttributes(mc.player);
             MatrixStack stack = event.getMatrixStack();
             MainWindow res = event.getWindow();
 

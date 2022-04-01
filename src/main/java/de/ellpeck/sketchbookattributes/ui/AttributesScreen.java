@@ -1,6 +1,11 @@
-package de.ellpeck.sketchbookattributes;
+package de.ellpeck.sketchbookattributes.ui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import de.ellpeck.sketchbookattributes.network.AttributeButtonPacket;
+import de.ellpeck.sketchbookattributes.network.PacketHandler;
+import de.ellpeck.sketchbookattributes.Registry;
+import de.ellpeck.sketchbookattributes.SketchBookAttributes;
+import de.ellpeck.sketchbookattributes.data.PlayerAttributes;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.util.InputMappings;
@@ -19,10 +24,10 @@ public class AttributesScreen extends Screen {
     private static final int IMAGE_WIDTH = 272;
     private static final int IMAGE_HEIGHT = 177;
 
-    private final AttributeData.PlayerAttributes data;
+    private final PlayerAttributes data;
     private AttributeInfo[] attributes;
 
-    public AttributesScreen(AttributeData.PlayerAttributes data) {
+    public AttributesScreen(PlayerAttributes data) {
         super(new TranslationTextComponent("info." + SketchBookAttributes.ID + ".screen"));
         this.data = data;
     }
@@ -113,13 +118,13 @@ public class AttributesScreen extends Screen {
 
         public final Button button;
 
-        private final AttributeData.PlayerAttributes data;
+        private final PlayerAttributes data;
         private final String name;
-        private final Function<AttributeData.PlayerAttributes, Integer> getLevel;
+        private final Function<PlayerAttributes, Integer> getLevel;
         private final int x;
         private final int y;
 
-        public AttributeInfo(AttributeData.PlayerAttributes data, String name, Function<AttributeData.PlayerAttributes, Integer> getLevel, int x, int y) {
+        public AttributeInfo(PlayerAttributes data, String name, Function<PlayerAttributes, Integer> getLevel, int x, int y) {
             this.data = data;
             this.name = name;
             this.getLevel = getLevel;
@@ -127,7 +132,7 @@ public class AttributesScreen extends Screen {
             this.y = y;
 
             this.button = new ExtendedButton(this.x - 19, this.y + 1, 15, 15, new StringTextComponent("+"),
-                    b -> PacketHandler.sendToServer(new PacketHandler.AttributeButton(this.name)));
+                    b -> PacketHandler.sendToServer(new AttributeButtonPacket(this.name)));
             this.button.active = this.data.skillPoints > 0;
         }
 
