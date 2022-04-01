@@ -38,7 +38,8 @@ public class PlayerAttributes implements INBTSerializable<CompoundNBT> {
     @Override
     public CompoundNBT serializeNBT() {
         CompoundNBT nbt = new CompoundNBT();
-        nbt.putInt("class", this.playerClass != null ? this.playerClass.ordinal() : -1);
+        if (this.playerClass != null)
+            nbt.putInt("player_class", this.playerClass.ordinal());
         nbt.putInt("points_to_next_level", this.pointsToNextLevel);
         nbt.putInt("level", this.level);
         nbt.putInt("strength", this.strength);
@@ -53,8 +54,7 @@ public class PlayerAttributes implements INBTSerializable<CompoundNBT> {
 
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
-        int cls = nbt.getInt("class");
-        this.playerClass = cls >= 0 ? PlayerClass.values()[cls] : null;
+        this.playerClass = nbt.contains("player_class") ? PlayerClass.values()[nbt.getInt("player_class")] : null;
         this.pointsToNextLevel = nbt.getInt("points_to_next_level");
         this.level = nbt.getInt("level");
         this.strength = nbt.getInt("strength");

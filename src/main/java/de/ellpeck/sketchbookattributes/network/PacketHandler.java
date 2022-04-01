@@ -17,6 +17,7 @@ public class PacketHandler {
         network = NetworkRegistry.newSimpleChannel(new ResourceLocation(SketchBookAttributes.ID, "network"), () -> VERSION, VERSION::equals, VERSION::equals);
         network.registerMessage(0, SyncAttributesPacket.class, SyncAttributesPacket::toBytes, SyncAttributesPacket::fromBytes, SyncAttributesPacket::onMessage);
         network.registerMessage(1, AttributeButtonPacket.class, AttributeButtonPacket::toBytes, AttributeButtonPacket::fromBytes, AttributeButtonPacket::onMessage);
+        network.registerMessage(2, ClassButtonPacket.class, ClassButtonPacket::toBytes, ClassButtonPacket::fromBytes, ClassButtonPacket::onMessage);
     }
 
     public static void sendToAll(Object message) {
