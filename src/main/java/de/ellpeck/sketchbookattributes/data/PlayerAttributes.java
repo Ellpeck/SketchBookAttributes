@@ -23,13 +23,13 @@ public class PlayerAttributes implements INBTSerializable<CompoundNBT> {
     public PlayerClass playerClass;
     public int pointsToNextLevel;
     public int level;
-    public int strength;
-    public int dexterity;
-    public int constitution;
-    public int intelligence;
-    public int agility;
     public float mana;
     public int skillPoints;
+    public int addedStrength;
+    public int addedDexterity;
+    public int addedConstitution;
+    public int addedIntelligence;
+    public int addedAgility;
 
     public PlayerAttributes() {
         this.mana = this.getMaxMana();
@@ -42,11 +42,11 @@ public class PlayerAttributes implements INBTSerializable<CompoundNBT> {
             nbt.putInt("player_class", this.playerClass.ordinal());
         nbt.putInt("points_to_next_level", this.pointsToNextLevel);
         nbt.putInt("level", this.level);
-        nbt.putInt("strength", this.strength);
-        nbt.putInt("dexterity", this.dexterity);
-        nbt.putInt("constitution", this.constitution);
-        nbt.putInt("intelligence", this.intelligence);
-        nbt.putInt("agility", this.agility);
+        nbt.putInt("strength", this.addedStrength);
+        nbt.putInt("dexterity", this.addedDexterity);
+        nbt.putInt("constitution", this.addedConstitution);
+        nbt.putInt("intelligence", this.addedIntelligence);
+        nbt.putInt("agility", this.addedAgility);
         nbt.putFloat("mana", this.mana);
         nbt.putInt("skill_points", this.skillPoints);
         return nbt;
@@ -57,11 +57,11 @@ public class PlayerAttributes implements INBTSerializable<CompoundNBT> {
         this.playerClass = nbt.contains("player_class") ? PlayerClass.values()[nbt.getInt("player_class")] : null;
         this.pointsToNextLevel = nbt.getInt("points_to_next_level");
         this.level = nbt.getInt("level");
-        this.strength = nbt.getInt("strength");
-        this.dexterity = nbt.getInt("dexterity");
-        this.constitution = nbt.getInt("constitution");
-        this.intelligence = nbt.getInt("intelligence");
-        this.agility = nbt.getInt("agility");
+        this.addedStrength = nbt.getInt("strength");
+        this.addedDexterity = nbt.getInt("dexterity");
+        this.addedConstitution = nbt.getInt("constitution");
+        this.addedIntelligence = nbt.getInt("intelligence");
+        this.addedAgility = nbt.getInt("agility");
         this.mana = nbt.getFloat("mana");
         this.skillPoints = nbt.getInt("skill_points");
     }
@@ -75,36 +75,56 @@ public class PlayerAttributes implements INBTSerializable<CompoundNBT> {
         }
     }
 
+    public int getStrength() {
+        return this.addedStrength + (this.playerClass != null ? this.playerClass.strengthBonus : 0);
+    }
+
+    public int getDexterity() {
+        return this.addedDexterity + (this.playerClass != null ? this.playerClass.dexterityBonus : 0);
+    }
+
+    public int getConstitution() {
+        return this.addedConstitution + (this.playerClass != null ? this.playerClass.constitutionBonus : 0);
+    }
+
+    public int getIntelligence() {
+        return this.addedIntelligence + (this.playerClass != null ? this.playerClass.intelligenceBonus : 0);
+    }
+
+    public int getAgility() {
+        return this.addedAgility + (this.playerClass != null ? this.playerClass.agilityBonus : 0);
+    }
+
     public float getHealthRegenPerSecond() {
-        return this.constitution * SketchBookAttributes.healthRegenPerLevel.get().floatValue();
+        return this.getConstitution() * SketchBookAttributes.healthRegenPerLevel.get().floatValue();
     }
 
     public float getMaxMana() {
-        return 20 + this.intelligence * SketchBookAttributes.manaBonusPerLevel.get().floatValue();
+        return 20 + this.getIntelligence() * SketchBookAttributes.manaBonusPerLevel.get().floatValue();
     }
 
     public float getManaRegenPerSecond() {
-        return 1 / 1.5F + this.intelligence * SketchBookAttributes.manaRegenPerLevel.get().floatValue();
+        return 1 / 1.5F + this.getIntelligence() * SketchBookAttributes.manaRegenPerLevel.get().floatValue();
     }
 
     public float getMeleeDamageBonus() {
-        return this.strength * SketchBookAttributes.meleeDamagePerLevel.get().floatValue();
+        return this.getStrength() * SketchBookAttributes.meleeDamagePerLevel.get().floatValue();
     }
 
     public float getRangedDamageBonus() {
-        return this.dexterity * SketchBookAttributes.rangedDamagePerLevel.get().floatValue();
+        return this.getDexterity() * SketchBookAttributes.rangedDamagePerLevel.get().floatValue();
     }
 
     public float getHealthBonus() {
-        return this.constitution * SketchBookAttributes.healthBonusPerLevel.get().floatValue();
+        return this.getConstitution() * SketchBookAttributes.healthBonusPerLevel.get().floatValue();
     }
 
     public float getMeleeSpeedBonus() {
-        return this.agility * SketchBookAttributes.meleeSpeedPerLevel.get().floatValue();
+        return this.getAgility() * SketchBookAttributes.meleeSpeedPerLevel.get().floatValue();
     }
 
     public float getMovementSpeedBonus() {
-        return this.agility * SketchBookAttributes.movementSpeedPerLevel.get().floatValue();
+        return this.getAgility() * SketchBookAttributes.movementSpeedPerLevel.get().floatValue();
     }
 
     public void reapplyAttributes(PlayerEntity player) {

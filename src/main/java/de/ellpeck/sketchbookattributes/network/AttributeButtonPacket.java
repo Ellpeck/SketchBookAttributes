@@ -37,19 +37,19 @@ public class AttributeButtonPacket {
                 attributes.skillPoints--;
                 switch (message.type) {
                     case "strength":
-                        attributes.strength++;
+                        attributes.addedStrength++;
                         break;
                     case "dexterity":
-                        attributes.dexterity++;
+                        attributes.addedDexterity++;
                         break;
                     case "constitution":
-                        attributes.constitution++;
+                        attributes.addedConstitution++;
                         break;
                     case "intelligence":
-                        attributes.intelligence++;
+                        attributes.addedIntelligence++;
                         break;
                     case "agility":
-                        attributes.agility++;
+                        attributes.addedAgility++;
                         break;
                 }
                 attributes.reapplyAttributes(player);

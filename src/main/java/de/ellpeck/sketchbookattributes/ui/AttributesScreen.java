@@ -38,11 +38,11 @@ public class AttributesScreen extends Screen {
         int top = (this.height - IMAGE_HEIGHT) / 2;
 
         this.attributes = new AttributeInfo[]{
-                new AttributeInfo(this.data, "strength", d -> d.strength, left + 39, top + 33),
-                new AttributeInfo(this.data, "dexterity", d -> d.dexterity, left + 39, top + 60),
-                new AttributeInfo(this.data, "constitution", d -> d.constitution, left + 39, top + 87),
-                new AttributeInfo(this.data, "intelligence", d -> d.intelligence, left + 39, top + 114),
-                new AttributeInfo(this.data, "agility", d -> d.agility, left + 39, top + 141)
+                new AttributeInfo(this.data, "strength", PlayerAttributes::getStrength, left + 39, top + 33),
+                new AttributeInfo(this.data, "dexterity", PlayerAttributes::getDexterity, left + 39, top + 60),
+                new AttributeInfo(this.data, "constitution", PlayerAttributes::getConstitution, left + 39, top + 87),
+                new AttributeInfo(this.data, "intelligence", PlayerAttributes::getIntelligence, left + 39, top + 114),
+                new AttributeInfo(this.data, "agility", PlayerAttributes::getAgility, left + 39, top + 141)
         };
 
         for (AttributeInfo attribute : this.attributes)
