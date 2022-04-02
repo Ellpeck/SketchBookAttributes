@@ -16,10 +16,13 @@ public class Registry {
 
     public static class Client {
 
-        public static final KeyBinding OPEN_KEYBIND = new KeyBinding("key." + SketchBookAttributes.ID + ".open", 73, "key.categories.misc");
+        public static final KeyBinding OPEN_KEYBIND = new KeyBinding("key." + SketchBookAttributes.ID + ".open", 73, "key.categories." + SketchBookAttributes.ID);
+        public static final KeyBinding SKILL_KEYBIND = new KeyBinding("key." + SketchBookAttributes.ID + ".skill", 82, "key.categories." + SketchBookAttributes.ID);
 
         public static void setup(FMLClientSetupEvent event) {
             ClientRegistry.registerKeyBinding(OPEN_KEYBIND);
+            ClientRegistry.registerKeyBinding(SKILL_KEYBIND);
+
             RenderingRegistry.registerEntityRenderingHandler(SketchBookAttributes.ICE_BALL.get(),
                     m -> new SpriteRenderer<>(m, event.getMinecraftSupplier().get().getItemRenderer(), 0.75F, true));
         }

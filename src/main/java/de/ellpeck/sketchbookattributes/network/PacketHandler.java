@@ -18,6 +18,7 @@ public class PacketHandler {
         network.registerMessage(0, SyncAttributesPacket.class, SyncAttributesPacket::toBytes, SyncAttributesPacket::fromBytes, SyncAttributesPacket::onMessage);
         network.registerMessage(1, AttributeButtonPacket.class, AttributeButtonPacket::toBytes, AttributeButtonPacket::fromBytes, AttributeButtonPacket::onMessage);
         network.registerMessage(2, ClassButtonPacket.class, ClassButtonPacket::toBytes, ClassButtonPacket::fromBytes, ClassButtonPacket::onMessage);
+        network.registerMessage(3, SkillActivatedPacket.class, SkillActivatedPacket::toBytes, SkillActivatedPacket::fromBytes, SkillActivatedPacket::onMessage);
     }
 
     public static void sendToAll(Object message) {

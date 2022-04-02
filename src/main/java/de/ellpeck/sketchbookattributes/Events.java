@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import de.ellpeck.sketchbookattributes.data.AttributeData;
 import de.ellpeck.sketchbookattributes.data.PlayerAttributes;
 import de.ellpeck.sketchbookattributes.network.PacketHandler;
+import de.ellpeck.sketchbookattributes.network.SkillActivatedPacket;
 import de.ellpeck.sketchbookattributes.ui.AttributesScreen;
 import de.ellpeck.sketchbookattributes.ui.ClassesScreen;
 import net.minecraft.client.MainWindow;
@@ -173,10 +174,12 @@ public class Events {
             Minecraft mc = Minecraft.getInstance();
             if (mc.screen == null) {
                 PlayerAttributes data = AttributeData.get(mc.player.level).getAttributes(mc.player);
-                if (Registry.Client.OPEN_KEYBIND.consumeClick()) {
-                    mc.setScreen(new AttributesScreen(data));
-                } else if (data.playerClass == null) {
+                if (data.playerClass == null) {
                     mc.setScreen(new ClassesScreen(data));
+                } else if (Registry.Client.OPEN_KEYBIND.consumeClick()) {
+                    mc.setScreen(new AttributesScreen(data));
+                } else if (Registry.Client.SKILL_KEYBIND.consumeClick()) {
+                    PacketHandler.sendToServer(new SkillActivatedPacket());
                 }
             }
         }

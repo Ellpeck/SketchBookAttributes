@@ -19,6 +19,7 @@ public class PlayerAttributes implements INBTSerializable<CompoundNBT> {
     private static final UUID MELEE_SPEED_ATTRIBUTE = UUID.fromString("04971c8a-62d5-4f01-b67f-d55a29e4482c");
     private static final UUID MAX_HEALTH_ATTRIBUTE = UUID.fromString("dd9a5f51-97c5-4a48-b26d-8089e52e2096");
     private static final UUID MOVE_SPEED_ATTRIBUTE = UUID.fromString("f32d97d8-274e-47f3-9cd1-80004bfd2e2d");
+    private static final UUID ARMOR_ATTRIBUTE = UUID.fromString("b693d319-e042-473f-a401-e36ac9af894f");
 
     public PlayerClass playerClass;
     public int pointsToNextLevel;
@@ -134,6 +135,8 @@ public class PlayerAttributes implements INBTSerializable<CompoundNBT> {
         this.reapplyAttribute(player, Attributes.MAX_HEALTH, MAX_HEALTH_ATTRIBUTE, this.getHealthBonus());
         this.reapplyAttribute(player, Attributes.ATTACK_SPEED, MELEE_SPEED_ATTRIBUTE, this.getMeleeSpeedBonus());
         this.reapplyAttribute(player, Attributes.MOVEMENT_SPEED, MOVE_SPEED_ATTRIBUTE, this.getMovementSpeedBonus());
+        if (this.playerClass == PlayerClass.FIGHTER)
+            this.reapplyAttribute(player, Attributes.ARMOR, ARMOR_ATTRIBUTE, 8);
     }
 
     public boolean gainXp(float amount) {
