@@ -30,7 +30,10 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerXpEvent;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -133,7 +136,16 @@ public class Events {
     @SubscribeEvent
     public static void livingHurt(LivingHurtEvent event) {
         DamageSource source = event.getSource();
-        if (source != null && source.isProjectile()) {
+        if (source == null)
+            return;
+
+        Entity player = source.getEntity();
+        if (player instanceof PlayerEntity && !PlayerAttributes.canUseHeldItem((PlayerEntity) player, false)) {
+            event.setAmount(1);
+            return;
+        }
+
+        if (source.isProjectile()) {
             Entity projectile = source.getDirectEntity();
 
             // ranged damage bonus
@@ -149,6 +161,43 @@ public class Events {
             if (projectile.getPersistentData().getBoolean(SketchBookAttributes.ID + ":meteor"))
                 event.setAmount(80);
         }
+    }
+
+    @SubscribeEvent
+    public static void onBlockBreak(BlockEvent.BreakEvent event) {
+        if (!PlayerAttributes.canUseHeldItem(event.getPlayer(), false))
+            event.setCanceled(true);
+    }
+
+    @SubscribeEvent
+    public static void onBlockPlace(BlockEvent.EntityPlaceEvent event) {
+        if (event.getEntity() instanceof PlayerEntity && !PlayerAttributes.canUseHeldItem((PlayerEntity) event.getEntity(), true)) {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onBlockInteract(PlayerInteractEvent.RightClickBlock event) {
+        if (!PlayerAttributes.canUseHeldItem(event.getPlayer(), true))
+            event.setUseItem(Event.Result.DENY);
+    }
+
+    @SubscribeEvent
+    public static void onItemInteract(PlayerInteractEvent.RightClickItem event) {
+        if (!PlayerAttributes.canUseHeldItem(event.getPlayer(), true))
+            event.setCanceled(true);
+    }
+
+    @SubscribeEvent
+    public static void onBlockClick(PlayerInteractEvent.LeftClickBlock event) {
+        if (!PlayerAttributes.canUseHeldItem(event.getPlayer(), false))
+            event.setCanceled(true);
+    }
+
+    @SubscribeEvent
+    public static void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
+        if (!PlayerAttributes.canUseHeldItem(event.getPlayer(), true))
+            event.setCanceled(true);
     }
 
     @Mod.EventBusSubscriber(Dist.CLIENT)

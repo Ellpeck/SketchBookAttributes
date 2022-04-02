@@ -17,10 +17,15 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Pattern;
+
 @Mod(SketchBookAttributes.ID)
 public class SketchBookAttributes {
 
     public static final String ID = "sketchbookattributes";
+    public static final Pattern ITEM_REQUIREMENT_REGEX = Pattern.compile("([^,]+), (strength|dexterity|constitution|intelligence|agility), (\\d+)");
 
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ID);
     private static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, ID);
@@ -46,6 +51,7 @@ public class SketchBookAttributes {
     public static ConfigValue<Double> manaBonusPerLevel;
     public static ConfigValue<Double> meleeSpeedPerLevel;
     public static ConfigValue<Double> movementSpeedPerLevel;
+    public static ConfigValue<List<? extends String>> attributeItemRequirements;
 
     public SketchBookAttributes() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -82,7 +88,21 @@ public class SketchBookAttributes {
         movementSpeedPerLevel = configBuilder
                 .comment("The amount that movement speed is increased for each addditional level of the ability")
                 .define("movement_speed_per_level", 0.0025);
+        attributeItemRequirements = configBuilder
+                .comment("A list of items that require certain ability levels, where each entry is formatted as 'item_id, ability, amount' with possible abilities strength, dexterity, constitution, intelligence, agility, and item ID can use regex")
+                .defineList("attribute_item_requirements", Arrays.asList(
+                        "minecraft:stone_sword, strength, 10",
+                        "minecraft:iron_sword, strength, 15",
+                        "minecraft:diamond_sword, strength, 25",
+                        "minecraft:netherite_sword, strength, 35",
+                        "minecraft:.*_axe, strength, 20",
+                        "minecraft:bow, dexterity, 20",
+                        "minecraft:crossbow, dexterity, 25",
+                        "sketchbookattributes:staff_tier_1, intelligence, 15",
+                        "sketchbookattributes:staff_tier_2, intelligence, 25",
+                        "sketchbookattributes:staff_tier_3, intelligence, 35",
+                        "sketchbookattributes:staff_master, intelligence, 50"
+                ), o -> ITEM_REQUIREMENT_REGEX.matcher(String.valueOf(o)).matches());
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, configBuilder.build());
     }
-
 }

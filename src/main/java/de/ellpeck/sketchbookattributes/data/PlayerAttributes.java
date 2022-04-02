@@ -6,10 +6,14 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.INBTSerializable;
 
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PlayerAttributes implements INBTSerializable<CompoundNBT> {
 
@@ -155,9 +159,43 @@ public class PlayerAttributes implements INBTSerializable<CompoundNBT> {
         return true;
     }
 
+    public boolean canUseItem(ItemStack stack) {
+        for (String config : SketchBookAttributes.attributeItemRequirements.get()) {
+            Matcher matcher = SketchBookAttributes.ITEM_REQUIREMENT_REGEX.matcher(config);
+            if (!matcher.matches() || !Pattern.matches(matcher.group(1), stack.getItem().getRegistryName().toString()))
+                continue;
+            int amount = Integer.parseInt(matcher.group(3));
+            switch (matcher.group(2)) {
+                case "strength":
+                    return this.getStrength() >= amount;
+                case "dexterity":
+                    return this.getDexterity() >= amount;
+                case "constitution":
+                    return this.getConstitution() >= amount;
+                case "intelligence":
+                    return this.getIntelligence() >= amount;
+                case "agility":
+                    return this.getAgility() >= amount;
+            }
+        }
+        return true;
+    }
+
     private void reapplyAttribute(PlayerEntity player, Attribute type, UUID id, float value) {
         ModifiableAttributeInstance instance = player.getAttribute(type);
         instance.removeModifier(id);
         instance.addTransientModifier(new AttributeModifier(id, type.getRegistryName() + " bonus", value, AttributeModifier.Operation.ADDITION));
+    }
+
+    public static boolean canUseHeldItem(PlayerEntity player, boolean displayMessage) {
+        ItemStack stack = player.getMainHandItem();
+        if (stack.isEmpty())
+            return true;
+        PlayerAttributes attributes = AttributeData.get(player.level).getAttributes(player);
+        if (attributes.canUseItem(stack))
+            return true;
+        if (displayMessage)
+            player.displayClientMessage(new TranslationTextComponent("info." + SketchBookAttributes.ID + ".requirements_not_met"), true);
+        return false;
     }
 }

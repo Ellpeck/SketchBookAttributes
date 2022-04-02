@@ -6,6 +6,7 @@
     "info.sketchbookattributes.points_set": "Set skill points for %s to %s",
     "info.sketchbookattributes.reset": "Reset attribute data for %s",
     "info.sketchbookattributes.choose": "Choose",
+    "info.sketchbookattributes.requirements_not_met": "You're not skilled enough for this action",
     "key.sketchbookattributes.open": "Open Attributes Menu",
     "key.sketchbookattributes.skill": "Activate Class Skill",
     "key.categories.sketchbookattributes": "SketchBook Attributes",
