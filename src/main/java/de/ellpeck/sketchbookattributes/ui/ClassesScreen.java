@@ -67,12 +67,6 @@ public class ClassesScreen extends Screen {
         return false;
     }
 
-    @Override
-    public boolean shouldCloseOnEsc() {
-        // TODO make this false but right now it's a good way to refresh the ui while editing
-        return true;
-    }
-
     private class ClassInfo {
 
         public final Button button;
