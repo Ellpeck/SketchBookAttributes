@@ -24,6 +24,7 @@ public enum PlayerClass {
             ArrowEntity arrow = new ArrowEntity(p.level, p);
             arrow.pickup = AbstractArrowEntity.PickupStatus.DISALLOWED;
             arrow.shootFromRotation(p, p.xRot, p.yRot, 0, 3, 5);
+            arrow.setCritArrow(p.getRandom().nextFloat() <= 0.05F);
 
             int j = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, held);
             if (j > 0)
