@@ -11,16 +11,14 @@ import de.ellpeck.sketchbookattributes.ui.ClassesScreen;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractFireballEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -37,6 +35,9 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+
+import java.util.List;
+import java.util.Locale;
 
 @Mod.EventBusSubscriber
 public class Events {
@@ -204,6 +205,24 @@ public class Events {
                 int y = res.getGuiScaledHeight() - (mc.player.isCreative() ? 29 : 45);
                 AbstractGui.blit(stack, x, y, 0, 0, 81, 5, 256, 256);
                 AbstractGui.blit(stack, x, y, 0, 5, (int) (81 * (attributes.mana / attributes.getMaxMana())), 5, 256, 256);
+                stack.popPose();
+            }
+
+            // display class skill
+            if (attributes.playerClass != null && !(mc.screen instanceof ChatScreen)) {
+                stack.pushPose();
+                String className = "class." + SketchBookAttributes.ID + "." + attributes.playerClass.name().toLowerCase(Locale.ROOT);
+                int y = res.getGuiScaledHeight() - 2;
+
+                ITextComponent desc = new TranslationTextComponent(className + ".skill.description", Registry.Client.SKILL_KEYBIND.getKey().getDisplayName());
+                List<IReorderingProcessor> split = mc.font.split(desc, res.getGuiScaledWidth() / 4);
+                for (int i = split.size() - 1; i >= 0; i--) {
+                    y -= mc.font.lineHeight;
+                    mc.font.drawShadow(stack, split.get(i), 2, y, 0xffffff);
+                }
+
+                y -= mc.font.lineHeight;
+                mc.font.drawShadow(stack, new TranslationTextComponent(className + ".skill"), 2, y - 3, 0xffffff);
                 stack.popPose();
             }
         }
