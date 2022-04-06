@@ -195,7 +195,7 @@ public final class Events {
         if (player.isCrouching()) {
             ItemStack held = player.getMainHandItem();
             if (held.getItem() == SketchBookAttributes.ROGUE_BLADE.get()) {
-                event.setDamageModifier(1.5F);
+                event.setDamageModifier(1.75F);
                 event.setResult(Event.Result.ALLOW);
             }
         }
