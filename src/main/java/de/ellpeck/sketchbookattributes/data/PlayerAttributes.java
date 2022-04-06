@@ -163,19 +163,28 @@ public class PlayerAttributes implements INBTSerializable<CompoundNBT> {
             Matcher matcher = SketchBookAttributes.ITEM_REQUIREMENT_REGEX.matcher(config);
             if (!matcher.matches() || !Pattern.matches(matcher.group(1), stack.getItem().getRegistryName().toString()))
                 continue;
-            int amount = Integer.parseInt(matcher.group(3));
+            int current;
             switch (matcher.group(2)) {
                 case "strength":
-                    return this.getStrength() >= amount;
+                    current = this.getStrength();
+                    break;
                 case "dexterity":
-                    return this.getDexterity() >= amount;
+                    current = this.getDexterity();
+                    break;
                 case "constitution":
-                    return this.getConstitution() >= amount;
+                    current = this.getConstitution();
+                    break;
                 case "intelligence":
-                    return this.getIntelligence() >= amount;
+                    current = this.getIntelligence();
+                    break;
                 case "agility":
-                    return this.getAgility() >= amount;
+                    current = this.getAgility();
+                    break;
+                default:
+                    throw new IllegalArgumentException(config);
             }
+            if (current < Integer.parseInt(matcher.group(3)))
+                return false;
         }
         return true;
     }
