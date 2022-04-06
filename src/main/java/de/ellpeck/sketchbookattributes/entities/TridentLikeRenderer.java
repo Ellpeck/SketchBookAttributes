@@ -28,7 +28,7 @@ public class TridentLikeRenderer extends EntityRenderer<TridentLikeEntity> {
             p_225623_4_.scale(1.5F, 1.5F, 1.5F);
             p_225623_4_.mulPose(Vector3f.YP.rotationDegrees(MathHelper.lerp(p_225623_3_, entity.yRotO, entity.yRot) - 90.0F));
             p_225623_4_.mulPose(Vector3f.ZP.rotationDegrees(MathHelper.lerp(p_225623_3_, entity.xRotO, entity.xRot) - 45.0F));
-            this.itemRenderer.renderStatic(entity.getDisplayItem(), ItemCameraTransforms.TransformType.GROUND, p_225623_6_, OverlayTexture.NO_OVERLAY, p_225623_4_, p_225623_5_);
+            this.itemRenderer.renderStatic(entity.tridentItem, ItemCameraTransforms.TransformType.GROUND, p_225623_6_, OverlayTexture.NO_OVERLAY, p_225623_4_, p_225623_5_);
             p_225623_4_.popPose();
             super.render(entity, p_225623_2_, p_225623_3_, p_225623_4_, p_225623_5_, p_225623_6_);
         }
