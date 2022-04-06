@@ -194,8 +194,10 @@ public final class Events {
         // always crit when using the rogue blade and sneaking
         if (player.isCrouching()) {
             ItemStack held = player.getMainHandItem();
-            if (held.getItem() == SketchBookAttributes.ROGUE_BLADE.get())
+            if (held.getItem() == SketchBookAttributes.ROGUE_BLADE.get()) {
+                event.setDamageModifier(1.5F);
                 event.setResult(Event.Result.ALLOW);
+            }
         }
     }
 }
