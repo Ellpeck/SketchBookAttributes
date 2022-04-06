@@ -53,5 +53,8 @@
     "item.sketchbookattributes.staff_tier_3": "Magic Staff Tier 3",
     "item.sketchbookattributes.staff_master": "Master Staff",
     "item.sketchbookattributes.dagger": "Dagger",
-    "item.sketchbookattributes.rogue_blade": "Rogue Blade"
+    "item.sketchbookattributes.rogue_blade": "Rogue Blade",
+    "item.sketchbookattributes.iron_greatsword": "Iron Greatsword",
+    "item.sketchbookattributes.diamond_greatsword": "Diamond Greatsword",
+    "item.sketchbookattributes.netherite_greatsword": "Netherite Greatsword"
 }

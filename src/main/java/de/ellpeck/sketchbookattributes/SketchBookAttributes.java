@@ -2,12 +2,14 @@ package de.ellpeck.sketchbookattributes;
 
 import de.ellpeck.sketchbookattributes.entities.IceBallEntity;
 import de.ellpeck.sketchbookattributes.entities.TridentLikeEntity;
+import de.ellpeck.sketchbookattributes.items.GreatswordItem;
 import de.ellpeck.sketchbookattributes.items.StaffItem;
 import de.ellpeck.sketchbookattributes.items.StaffItem.Mode;
 import de.ellpeck.sketchbookattributes.items.TridentLikeItem;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemTier;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
@@ -44,6 +46,9 @@ public class SketchBookAttributes {
             () -> new StaffItem(Mode.FIRE_BALL, Mode.JUMP, Mode.ICE_BALL, Mode.HEAL, Mode.SPEED, Mode.STRENGTH, Mode.METEORS));
     public static final RegistryObject<TridentLikeItem> DAGGER = ITEMS.register("dagger", () -> new TridentLikeItem(180, 3, -2.1));
     public static final RegistryObject<TridentLikeItem> ROGUE_BLADE = ITEMS.register("rogue_blade", () -> new TridentLikeItem(300, 4, -2.1));
+    public static final RegistryObject<GreatswordItem> IRON_GREATSWORD = ITEMS.register("iron_greatsword", () -> new GreatswordItem(ItemTier.IRON, 4, -3, 280));
+    public static final RegistryObject<GreatswordItem> DIAMOND_GREATSWORD = ITEMS.register("diamond_greatsword", () -> new GreatswordItem(ItemTier.DIAMOND, 4, -3, 1800));
+    public static final RegistryObject<GreatswordItem> NETHERITE_GREATSWORD = ITEMS.register("netherite_greatsword", () -> new GreatswordItem(ItemTier.NETHERITE, 5, -3, 2200));
 
     public static final RegistryObject<EntityType<IceBallEntity>> ICE_BALL = ENTITIES.register("ice_ball",
             () -> EntityType.Builder.<IceBallEntity>of(IceBallEntity::new, EntityClassification.MISC).build("ice_ball"));
