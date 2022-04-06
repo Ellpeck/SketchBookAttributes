@@ -139,8 +139,7 @@ public class PlayerAttributes implements INBTSerializable<CompoundNBT> {
         this.reapplyAttribute(player, Attributes.MAX_HEALTH, MAX_HEALTH_ATTRIBUTE, this.getHealthBonus());
         this.reapplyAttribute(player, Attributes.ATTACK_SPEED, MELEE_SPEED_ATTRIBUTE, this.getMeleeSpeedBonus());
         this.reapplyAttribute(player, Attributes.MOVEMENT_SPEED, MOVE_SPEED_ATTRIBUTE, this.getMovementSpeedBonus());
-        if (this.playerClass == PlayerClass.FIGHTER)
-            this.reapplyAttribute(player, Attributes.ARMOR, ARMOR_ATTRIBUTE, 8);
+        this.reapplyAttribute(player, Attributes.ARMOR, ARMOR_ATTRIBUTE, this.playerClass == PlayerClass.FIGHTER ? 8 : 0);
     }
 
     public boolean gainXp(float amount) {
@@ -184,7 +183,8 @@ public class PlayerAttributes implements INBTSerializable<CompoundNBT> {
     private void reapplyAttribute(PlayerEntity player, Attribute type, UUID id, float value) {
         ModifiableAttributeInstance instance = player.getAttribute(type);
         instance.removeModifier(id);
-        instance.addTransientModifier(new AttributeModifier(id, type.getRegistryName() + " bonus", value, AttributeModifier.Operation.ADDITION));
+        if (value != 0)
+            instance.addTransientModifier(new AttributeModifier(id, type.getRegistryName() + " bonus", value, AttributeModifier.Operation.ADDITION));
     }
 
     public static boolean canUseHeldItem(PlayerEntity player, boolean displayMessage) {
