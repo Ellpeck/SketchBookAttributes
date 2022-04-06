@@ -44,8 +44,8 @@ public class SketchBookAttributes {
             () -> new StaffItem(Mode.FIRE_BALL, Mode.JUMP, Mode.ICE_BALL, Mode.HEAL, Mode.SPEED));
     public static final RegistryObject<StaffItem> STAFF_MASTER = ITEMS.register("staff_master",
             () -> new StaffItem(Mode.FIRE_BALL, Mode.JUMP, Mode.ICE_BALL, Mode.HEAL, Mode.SPEED, Mode.STRENGTH, Mode.METEORS));
-    public static final RegistryObject<TridentLikeItem> DAGGER = ITEMS.register("dagger", () -> new TridentLikeItem(180, 3, -2.1));
-    public static final RegistryObject<TridentLikeItem> ROGUE_BLADE = ITEMS.register("rogue_blade", () -> new TridentLikeItem(300, 4, -2.1));
+    public static final RegistryObject<TridentLikeItem> DAGGER = ITEMS.register("dagger", () -> new TridentLikeItem(180, 3, -2.1, 4));
+    public static final RegistryObject<TridentLikeItem> ROGUE_BLADE = ITEMS.register("rogue_blade", () -> new TridentLikeItem(300, 5, -2.1, 7));
     public static final RegistryObject<GreatswordItem> IRON_GREATSWORD = ITEMS.register("iron_greatsword", () -> new GreatswordItem(ItemTier.IRON, 4, -3, 280));
     public static final RegistryObject<GreatswordItem> DIAMOND_GREATSWORD = ITEMS.register("diamond_greatsword", () -> new GreatswordItem(ItemTier.DIAMOND, 4, -3, 1800));
     public static final RegistryObject<GreatswordItem> NETHERITE_GREATSWORD = ITEMS.register("netherite_greatsword", () -> new GreatswordItem(ItemTier.NETHERITE, 5, -3, 2200));

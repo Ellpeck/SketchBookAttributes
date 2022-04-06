@@ -26,14 +26,17 @@ import net.minecraft.world.World;
 
 public class TridentLikeItem extends TridentItem {
 
+    public final int thrownDamage;
+
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
 
-    public TridentLikeItem(int durability, double attackDamage, double attackSpeed) {
+    public TridentLikeItem(int durability, double attackDamage, double attackSpeed, int thrownDamage) {
         super(new Properties().tab(ItemGroup.TAB_COMBAT).durability(durability));
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", attackDamage, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", attackSpeed, AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
+        this.thrownDamage = thrownDamage;
     }
 
     @Override
