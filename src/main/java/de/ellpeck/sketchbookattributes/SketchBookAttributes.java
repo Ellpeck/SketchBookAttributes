@@ -42,8 +42,8 @@ public class SketchBookAttributes {
             () -> new StaffItem(Mode.FIRE_BALL, Mode.JUMP, Mode.ICE_BALL, Mode.HEAL, Mode.SPEED));
     public static final RegistryObject<StaffItem> STAFF_MASTER = ITEMS.register("staff_master",
             () -> new StaffItem(Mode.FIRE_BALL, Mode.JUMP, Mode.ICE_BALL, Mode.HEAL, Mode.SPEED, Mode.STRENGTH, Mode.METEORS));
-    public static final RegistryObject<TridentLikeItem> DAGGER = ITEMS.register("dagger", () -> new TridentLikeItem(180, 4, -1.9));
-    public static final RegistryObject<TridentLikeItem> ROGUE_BLADE = ITEMS.register("rogue_blade", () -> new TridentLikeItem(300, 5, -1.9));
+    public static final RegistryObject<TridentLikeItem> DAGGER = ITEMS.register("dagger", () -> new TridentLikeItem(180, 3, -2.1));
+    public static final RegistryObject<TridentLikeItem> ROGUE_BLADE = ITEMS.register("rogue_blade", () -> new TridentLikeItem(300, 4, -2.1));
 
     public static final RegistryObject<EntityType<IceBallEntity>> ICE_BALL = ENTITIES.register("ice_ball",
             () -> EntityType.Builder.<IceBallEntity>of(IceBallEntity::new, EntityClassification.MISC).build("ice_ball"));
