@@ -1,4 +1,4 @@
-package de.ellpeck.sketchbookattributes;
+package de.ellpeck.sketchbookattributes.entities;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;

@@ -51,5 +51,7 @@
     "item.sketchbookattributes.staff_tier_1": "Magic Staff Tier 1",
     "item.sketchbookattributes.staff_tier_2": "Magic Staff Tier 2",
     "item.sketchbookattributes.staff_tier_3": "Magic Staff Tier 3",
-    "item.sketchbookattributes.staff_master": "Master Staff"
+    "item.sketchbookattributes.staff_master": "Master Staff",
+    "item.sketchbookattributes.dagger": "Dagger",
+    "item.sketchbookattributes.rogue_blade": "Rogue Blade"
 }

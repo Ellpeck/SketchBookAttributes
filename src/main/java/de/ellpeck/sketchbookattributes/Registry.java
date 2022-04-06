@@ -1,5 +1,6 @@
 package de.ellpeck.sketchbookattributes;
 
+import de.ellpeck.sketchbookattributes.entities.TridentLikeRenderer;
 import de.ellpeck.sketchbookattributes.network.PacketHandler;
 import net.minecraft.client.renderer.entity.SpriteRenderer;
 import net.minecraft.client.settings.KeyBinding;
@@ -25,6 +26,8 @@ public class Registry {
 
             RenderingRegistry.registerEntityRenderingHandler(SketchBookAttributes.ICE_BALL.get(),
                     m -> new SpriteRenderer<>(m, event.getMinecraftSupplier().get().getItemRenderer(), 0.75F, true));
+            RenderingRegistry.registerEntityRenderingHandler(SketchBookAttributes.TRIDENT_LIKE.get(),
+                    m -> new TridentLikeRenderer(m, event.getMinecraftSupplier().get().getItemRenderer()));
         }
     }
 }

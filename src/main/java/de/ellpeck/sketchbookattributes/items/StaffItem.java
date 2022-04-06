@@ -1,5 +1,8 @@
-package de.ellpeck.sketchbookattributes;
+package de.ellpeck.sketchbookattributes.items;
 
+import de.ellpeck.sketchbookattributes.entities.IceBallEntity;
+import de.ellpeck.sketchbookattributes.SketchBookAttributes;
+import de.ellpeck.sketchbookattributes.Utility;
 import de.ellpeck.sketchbookattributes.data.AttributeData;
 import de.ellpeck.sketchbookattributes.data.PlayerAttributes;
 import de.ellpeck.sketchbookattributes.network.PacketHandler;

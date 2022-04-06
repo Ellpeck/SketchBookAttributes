@@ -1,6 +1,10 @@
 package de.ellpeck.sketchbookattributes;
 
-import de.ellpeck.sketchbookattributes.StaffItem.Mode;
+import de.ellpeck.sketchbookattributes.entities.IceBallEntity;
+import de.ellpeck.sketchbookattributes.entities.TridentLikeEntity;
+import de.ellpeck.sketchbookattributes.items.StaffItem;
+import de.ellpeck.sketchbookattributes.items.StaffItem.Mode;
+import de.ellpeck.sketchbookattributes.items.TridentLikeItem;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -38,9 +42,13 @@ public class SketchBookAttributes {
             () -> new StaffItem(Mode.FIRE_BALL, Mode.JUMP, Mode.ICE_BALL, Mode.HEAL, Mode.SPEED));
     public static final RegistryObject<StaffItem> STAFF_MASTER = ITEMS.register("staff_master",
             () -> new StaffItem(Mode.FIRE_BALL, Mode.JUMP, Mode.ICE_BALL, Mode.HEAL, Mode.SPEED, Mode.STRENGTH, Mode.METEORS));
+    public static final RegistryObject<TridentLikeItem> DAGGER = ITEMS.register("dagger", () -> new TridentLikeItem(180, 4, -1.9));
+    public static final RegistryObject<TridentLikeItem> ROGUE_BLADE = ITEMS.register("rogue_blade", () -> new TridentLikeItem(300, 5, -1.9));
 
     public static final RegistryObject<EntityType<IceBallEntity>> ICE_BALL = ENTITIES.register("ice_ball",
             () -> EntityType.Builder.<IceBallEntity>of(IceBallEntity::new, EntityClassification.MISC).build("ice_ball"));
+    public static final RegistryObject<EntityType<TridentLikeEntity>> TRIDENT_LIKE = ENTITIES.register("trident_like",
+            () -> EntityType.Builder.<TridentLikeEntity>of(TridentLikeEntity::new, EntityClassification.MISC).build("trident_like"));
 
     public static ConfigValue<Double> xpNeededMultiplier;
     public static ConfigValue<Double> healthRegenPerLevel;
