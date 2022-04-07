@@ -88,6 +88,11 @@ public class GildedCrossbowItem extends CrossbowItem {
     }
 
     @Override
+    public int getUseDuration(ItemStack stack) {
+        return getGildedChargeDuration(stack) + 3;
+    }
+
+    @Override
     public UseAction getUseAnimation(ItemStack stack) {
         // crossbow is very specific and only works with the crossbow item, because why wouldn't it
         return UseAction.BOW;
@@ -147,14 +152,12 @@ public class GildedCrossbowItem extends CrossbowItem {
                 Vector3d vector3d = p_220016_1_.getViewVector(1.0F);
                 Vector3f vector3f = new Vector3f(vector3d);
                 vector3f.transform(quaternion);
-                projectileentity.shoot((double) vector3f.x(), (double) vector3f.y(), (double) vector3f.z(), p_220016_7_, p_220016_8_);
+                projectileentity.shoot(vector3f.x(), vector3f.y(), vector3f.z(), p_220016_7_, p_220016_8_);
             }
 
-            p_220016_3_.hurtAndBreak(flag ? 3 : 1, p_220016_1_, (p_220017_1_) -> {
-                p_220017_1_.broadcastBreakEvent(p_220016_2_);
-            });
+            p_220016_3_.hurtAndBreak(flag ? 3 : 1, p_220016_1_, (p_220017_1_) -> p_220017_1_.broadcastBreakEvent(p_220016_2_));
             p_220016_0_.addFreshEntity(projectileentity);
-            p_220016_0_.playSound((PlayerEntity) null, p_220016_1_.getX(), p_220016_1_.getY(), p_220016_1_.getZ(), SoundEvents.CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1.0F, p_220016_5_);
+            p_220016_0_.playSound(null, p_220016_1_.getX(), p_220016_1_.getY(), p_220016_1_.getZ(), SoundEvents.CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1.0F, p_220016_5_);
         }
     }
 

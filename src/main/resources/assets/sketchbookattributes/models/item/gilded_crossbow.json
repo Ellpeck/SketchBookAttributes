@@ -45,6 +45,19 @@
                 "sketchbookattributes:pull": 1.0
             },
             "model": "sketchbookattributes:item/gilded_crossbow_pulling_2"
+        },
+        {
+            "predicate": {
+                "sketchbookattributes:charged": 1
+            },
+            "model": "sketchbookattributes:item/gilded_crossbow_arrow"
+        },
+        {
+            "predicate": {
+                "sketchbookattributes:charged": 1,
+                "sketchbookattributes:firework": 1
+            },
+            "model": "sketchbookattributes:item/gilded_crossbow_firework"
         }
     ]
 }
