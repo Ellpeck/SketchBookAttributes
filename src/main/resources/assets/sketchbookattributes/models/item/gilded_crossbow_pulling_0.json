@@ -1,0 +1,6 @@
+{
+    "parent": "sketchbookattributes:item/gilded_crossbow",
+    "textures": {
+        "layer0": "sketchbookattributes:item/gilded_crossbow_pulling_0"
+    }
+}
