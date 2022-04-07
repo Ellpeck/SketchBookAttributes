@@ -8,6 +8,7 @@ import de.ellpeck.sketchbookattributes.network.PacketHandler;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractFireballEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
@@ -19,6 +20,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -127,8 +129,8 @@ public final class Events {
         if (source == null)
             return;
 
-        Entity player = source.getEntity();
-        if (player instanceof PlayerEntity && !PlayerAttributes.canUseHeldItem((PlayerEntity) player, false)) {
+        Entity attacker = source.getEntity();
+        if (attacker instanceof PlayerEntity && !PlayerAttributes.canUseHeldItem((PlayerEntity) attacker, false)) {
             event.setAmount(1);
             return;
         }
@@ -148,6 +150,21 @@ public final class Events {
             // staff meteor damage increase
             if (projectile.getPersistentData().getBoolean(SketchBookAttributes.ID + ":meteor"))
                 event.setAmount(80);
+        }
+    }
+
+    // lowest priority so that fire aspect isn't engaged when someone else cancels the event
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void livingDamage(LivingDamageEvent event) {
+        DamageSource source = event.getSource();
+        if (source == null)
+            return;
+
+        Entity attacker = source.getEntity();
+        if (attacker instanceof LivingEntity) {
+            ItemStack held = ((LivingEntity) attacker).getMainHandItem();
+            if (held.getItem() == SketchBookAttributes.FLAME_GODS_BLADE.get())
+                event.getEntity().setSecondsOnFire(4);
         }
     }
 

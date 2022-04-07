@@ -3,6 +3,7 @@ package de.ellpeck.sketchbookattributes;
 import de.ellpeck.sketchbookattributes.entities.IceBallEntity;
 import de.ellpeck.sketchbookattributes.entities.TridentLikeEntity;
 import de.ellpeck.sketchbookattributes.items.GreatswordItem;
+import de.ellpeck.sketchbookattributes.items.SpecialSwordItem;
 import de.ellpeck.sketchbookattributes.items.StaffItem;
 import de.ellpeck.sketchbookattributes.items.StaffItem.Mode;
 import de.ellpeck.sketchbookattributes.items.TridentLikeItem;
@@ -49,6 +50,7 @@ public class SketchBookAttributes {
     public static final RegistryObject<GreatswordItem> IRON_GREATSWORD = ITEMS.register("iron_greatsword", () -> new GreatswordItem(ItemTier.IRON, 4, -3, 280));
     public static final RegistryObject<GreatswordItem> DIAMOND_GREATSWORD = ITEMS.register("diamond_greatsword", () -> new GreatswordItem(ItemTier.DIAMOND, 4, -3, 1800));
     public static final RegistryObject<GreatswordItem> NETHERITE_GREATSWORD = ITEMS.register("netherite_greatsword", () -> new GreatswordItem(ItemTier.NETHERITE, 5, -3, 2200));
+    public static final RegistryObject<SpecialSwordItem> FLAME_GODS_BLADE = ITEMS.register("flame_gods_blade", () -> new SpecialSwordItem(11, -2.3F, 2800));
 
     public static final RegistryObject<EntityType<IceBallEntity>> ICE_BALL = ENTITIES.register("ice_ball",
             () -> EntityType.Builder.<IceBallEntity>of(IceBallEntity::new, EntityClassification.MISC).build("ice_ball"));
