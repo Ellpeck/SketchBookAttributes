@@ -1,4 +1,4 @@
-package de.ellpeck.sketchbookattributes.mixins;
+package de.ellpeck.sketchbookattributes.mixin;
 
 import de.ellpeck.sketchbookattributes.items.GreatswordItem;
 import net.minecraft.enchantment.EnchantmentHelper;
