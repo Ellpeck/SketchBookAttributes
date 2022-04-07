@@ -58,5 +58,8 @@
     "item.sketchbookattributes.diamond_greatsword": "Diamond Greatsword",
     "item.sketchbookattributes.netherite_greatsword": "Netherite Greatsword",
     "item.sketchbookattributes.flame_gods_blade": "Flame God's Blade",
-    "item.sketchbookattributes.gilded_crossbow": "Gilded Crossbow"
+    "item.sketchbookattributes.gilded_crossbow": "Gilded Crossbow",
+    "item.sketchbookattributes.quick_string_bow": "Quick String Bow",
+    "item.sketchbookattributes.hunters_mark_bow": "Hunter's Mark Bow",
+    "item.sketchbookattributes.thunder_king_bow": "Thunder King's Bow"
 }

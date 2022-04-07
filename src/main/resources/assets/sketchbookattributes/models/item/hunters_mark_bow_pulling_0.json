@@ -1,0 +1,6 @@
+{
+    "parent": "sketchbookattributes:item/hunters_mark_bow",
+    "textures": {
+        "layer0": "sketchbookattributes:item/hunters_mark_bow_pulling_0"
+    }
+}

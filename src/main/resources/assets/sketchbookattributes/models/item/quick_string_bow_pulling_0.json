@@ -1,0 +1,6 @@
+{
+    "parent": "sketchbookattributes:item/quick_string_bow",
+    "textures": {
+        "layer0": "sketchbookattributes:item/quick_string_bow_pulling_0"
+    }
+}

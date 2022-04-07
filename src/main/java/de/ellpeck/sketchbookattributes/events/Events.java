@@ -4,6 +4,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import de.ellpeck.sketchbookattributes.SketchBookAttributes;
 import de.ellpeck.sketchbookattributes.data.AttributeData;
 import de.ellpeck.sketchbookattributes.data.PlayerAttributes;
+import de.ellpeck.sketchbookattributes.items.SpecialBowItem;
 import de.ellpeck.sketchbookattributes.network.PacketHandler;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
@@ -12,8 +13,12 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractFireballEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -22,6 +27,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerXpEvent;
@@ -31,6 +37,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod.EventBusSubscriber
 public final class Events {
@@ -153,7 +160,7 @@ public final class Events {
         }
     }
 
-    // lowest priority so that fire aspect isn't engaged when someone else cancels the event
+    // lowest priority so that resulting effects aren't engaged when someone else cancels the event
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void livingDamage(LivingDamageEvent event) {
         DamageSource source = event.getSource();
@@ -166,6 +173,23 @@ public final class Events {
             if (held.getItem() == SketchBookAttributes.FLAME_GODS_BLADE.get())
                 event.getEntity().setSecondsOnFire(4);
         }
+
+        if (source.isProjectile()) {
+            Entity projectile = source.getDirectEntity();
+
+            // thunder king bow slowness
+            String bowName = projectile.getPersistentData().getString(SketchBookAttributes.ID + ":bow");
+            Item bow = ForgeRegistries.ITEMS.getValue(new ResourceLocation(bowName));
+            if (bow == SketchBookAttributes.THUNDER_KING_BOW.get())
+                event.getEntityLiving().addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 2 * 20));
+        }
+    }
+
+    @SubscribeEvent
+    public static void arrowLoose(ArrowLooseEvent event) {
+        Item item = event.getBow().getItem();
+        if (item instanceof SpecialBowItem)
+            event.setCharge((int) (event.getCharge() * ((SpecialBowItem) item).drawSpeedMultiplier));
     }
 
     @SubscribeEvent

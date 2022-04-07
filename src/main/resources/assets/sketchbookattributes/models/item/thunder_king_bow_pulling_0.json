@@ -1,0 +1,6 @@
+{
+    "parent": "sketchbookattributes:item/thunder_king_bow",
+    "textures": {
+        "layer0": "sketchbookattributes:item/thunder_king_bow_pulling_0"
+    }
+}

@@ -31,9 +31,7 @@ public class SketchBookAttributes {
     public static final String ID = "sketchbookattributes";
     public static final Pattern ITEM_REQUIREMENT_REGEX = Pattern.compile("([^,]+), (strength|dexterity|constitution|intelligence|agility), (\\d+)");
 
-    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ID);
-    private static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, ID);
-
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ID);
     public static final RegistryObject<StaffItem> STAFF_TIER_1 = ITEMS.register("staff_tier_1",
             () -> new StaffItem(Mode.FIRE_BALL));
     public static final RegistryObject<StaffItem> STAFF_TIER_2 = ITEMS.register("staff_tier_2",
@@ -49,7 +47,11 @@ public class SketchBookAttributes {
     public static final RegistryObject<GreatswordItem> NETHERITE_GREATSWORD = ITEMS.register("netherite_greatsword", () -> new GreatswordItem(ItemTier.NETHERITE, 5, -3, 2200));
     public static final RegistryObject<SpecialSwordItem> FLAME_GODS_BLADE = ITEMS.register("flame_gods_blade", () -> new SpecialSwordItem(11, -2.3F, 2800));
     public static final RegistryObject<GildedCrossbowItem> GILDED_CROSSBOW = ITEMS.register("gilded_crossbow", GildedCrossbowItem::new);
+    public static final RegistryObject<SpecialBowItem> QUICK_STRING_BOW = ITEMS.register("quick_string_bow", () -> new SpecialBowItem(400, 1.2F, 1));
+    public static final RegistryObject<SpecialBowItem> HUNTERS_MARK_BOW = ITEMS.register("hunters_mark_bow", () -> new SpecialBowItem(500, 1, 1.5F));
+    public static final RegistryObject<SpecialBowItem> THUNDER_KING_BOW = ITEMS.register("thunder_king_bow", () -> new SpecialBowItem(1500, 1.5F, 2));
 
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, ID);
     public static final RegistryObject<EntityType<IceBallEntity>> ICE_BALL = ENTITIES.register("ice_ball",
             () -> EntityType.Builder.<IceBallEntity>of(IceBallEntity::new, EntityClassification.MISC).build("ice_ball"));
     public static final RegistryObject<EntityType<TridentLikeEntity>> TRIDENT_LIKE = ENTITIES.register("trident_like",

@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class Utility {
+public final class Utility {
 
     public static EntityRayTraceResult pickEntity(PlayerEntity player, double range) {
         // see GameRenderer.pick for reference
