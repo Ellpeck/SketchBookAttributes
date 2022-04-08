@@ -113,15 +113,27 @@ public class SketchBookAttributes {
                 .defineList("attribute_item_requirements", Arrays.asList(
                         "minecraft:stone_sword, strength, 10",
                         "minecraft:iron_sword, strength, 15",
+                        "sketchbookattributes:iron_greatsword, strength, 20",
                         "minecraft:diamond_sword, strength, 25",
+                        "sketchbookattributes:diamond_greatsword, strength, 30",
                         "minecraft:netherite_sword, strength, 35",
+                        "sketchbookattributes:netherite_greatsword, strength, 40",
+                        "sketchbookattributes:flame_gods_blade, strength, 50",
                         "minecraft:.*_axe, strength, 20",
                         "minecraft:bow, dexterity, 20",
                         "minecraft:crossbow, dexterity, 25",
+                        "sketchbookattributes:quick_string_bow, dexterity, 30",
+                        "sketchbookattributes:gilded_crossbow, dexterity, 35",
+                        "sketchbookattributes:hunters_mark_bow, dexterity, 40",
+                        "sketchbookattributes:thunder_king_bow, dexterity, 50",
                         "sketchbookattributes:staff_tier_1, intelligence, 15",
                         "sketchbookattributes:staff_tier_2, intelligence, 25",
                         "sketchbookattributes:staff_tier_3, intelligence, 35",
-                        "sketchbookattributes:staff_master, intelligence, 50"
+                        "sketchbookattributes:staff_master, intelligence, 50",
+                        "sketchbookattributes:haste_boots, agility, 20",
+                        "sketchbookattributes:rogue_blade, agility, 30",
+                        "sketchbookattributes:brawler_gauntlet, strength, 30",
+                        "sketchbookattributes:barbarian_axe, strength, 35"
                 ), o -> ITEM_REQUIREMENT_REGEX.matcher(String.valueOf(o)).matches());
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, configBuilder.build());
     }
