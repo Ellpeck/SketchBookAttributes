@@ -13,6 +13,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractFireballEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
@@ -120,6 +121,8 @@ public final class Events {
             return;
         AttributeData data = AttributeData.get(event.player.level);
         PlayerAttributes attributes = data.getAttributes(event.player);
+
+        // update mana and additional health regen
         if (event.player.tickCount % 20 == 0) {
             float newMana = Math.min(attributes.getMaxMana(), attributes.mana + attributes.getManaRegenPerSecond());
             if (newMana != attributes.mana) {
@@ -128,6 +131,11 @@ public final class Events {
             }
             event.player.heal(attributes.getHealthRegenPerSecond());
         }
+
+        // give speed effect for haste boots
+        ItemStack boots = event.player.getItemBySlot(EquipmentSlotType.FEET);
+        if (boots.getItem() == SketchBookAttributes.HASTE_BOOTS.get())
+            event.player.addEffect(new EffectInstance(Effects.MOVEMENT_SPEED, 1, 1));
     }
 
     @SubscribeEvent
