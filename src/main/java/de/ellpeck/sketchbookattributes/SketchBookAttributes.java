@@ -53,6 +53,7 @@ public class SketchBookAttributes {
     public static final RegistryObject<HasteBootsItem> HASTE_BOOTS = ITEMS.register("haste_boots", HasteBootsItem::new);
     public static final RegistryObject<BrawlerGauntletItem> BRAWLER_GAUNTLET = ITEMS.register("brawler_gauntlet", BrawlerGauntletItem::new);
     public static final RegistryObject<BarbarianAxeItem> BARBARIAN_AXE = ITEMS.register("barbarian_axe", BarbarianAxeItem::new);
+    public static final RegistryObject<ClassChangerItem> CLASS_CHANGER = ITEMS.register("class_changer", ClassChangerItem::new);
 
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, ID);
     public static final RegistryObject<EntityType<IceBallEntity>> ICE_BALL = ENTITIES.register("ice_ball",
