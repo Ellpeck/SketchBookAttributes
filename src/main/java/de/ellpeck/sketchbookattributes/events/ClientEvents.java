@@ -119,7 +119,7 @@ public final class ClientEvents {
             if (!matcher.matches() || !Pattern.matches(matcher.group(1), stack.getItem().getRegistryName().toString()))
                 continue;
             TranslationTextComponent ability = new TranslationTextComponent("attribute." + SketchBookAttributes.ID + "." + matcher.group(2));
-            event.getToolTip().add(new TranslationTextComponent("info." + SketchBookAttributes.ID + ".requirements", matcher.group(3), ability).withStyle(TextFormatting.DARK_GRAY));
+            event.getToolTip().add(new TranslationTextComponent("info." + SketchBookAttributes.ID + ".requirements", matcher.group(3), ability).withStyle(TextFormatting.DARK_PURPLE));
         }
     }
 }
