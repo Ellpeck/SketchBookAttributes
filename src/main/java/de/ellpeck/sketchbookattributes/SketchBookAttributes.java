@@ -51,6 +51,7 @@ public class SketchBookAttributes {
     public static final RegistryObject<SpecialBowItem> HUNTERS_MARK_BOW = ITEMS.register("hunters_mark_bow", () -> new SpecialBowItem(500, 1, 1.5F));
     public static final RegistryObject<SpecialBowItem> THUNDER_KING_BOW = ITEMS.register("thunder_king_bow", () -> new SpecialBowItem(1500, 1.5F, 2));
     public static final RegistryObject<HasteBootsItem> HASTE_BOOTS = ITEMS.register("haste_boots", HasteBootsItem::new);
+    public static final RegistryObject<BrawlerGauntletItem> BRAWLER_GAUNTLET = ITEMS.register("brawler_gauntlet", BrawlerGauntletItem::new);
 
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, ID);
     public static final RegistryObject<EntityType<IceBallEntity>> ICE_BALL = ENTITIES.register("ice_ball",
