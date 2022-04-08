@@ -327,5 +327,13 @@
             "translation": [1, -1.75, 0],
             "scale": [0.75, 0.75, 0.75]
         }
-    }
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "sketchbookattributes:blocking": 1
+            },
+            "model": "sketchbookattributes:item/brawler_gauntlet_blocking"
+        }
+    ]
 }

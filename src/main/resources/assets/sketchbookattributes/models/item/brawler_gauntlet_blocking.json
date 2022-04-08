@@ -1,0 +1,33 @@
+{
+    "parent": "sketchbookattributes:item/brawler_gauntlet",
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [94, 0, 0],
+            "translation": [0, -1.75, 1.5],
+            "scale": [0.46, 0.5, 0.45]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [94, -180, 0],
+            "translation": [0, -1.75, 1.5],
+            "scale": [0.46, 0.5, 0.45]
+        },
+        "firstperson_righthand": {
+            "rotation": [94, 0, 0],
+            "translation": [-1, 3, 1.75],
+            "scale": [0.46, 0.5, 0.45]
+        },
+        "firstperson_lefthand": {
+            "rotation": [94, -180, 0],
+            "translation": [-1, 3, 1.75],
+            "scale": [0.46, 0.5, 0.45]
+        },
+        "ground": {
+            "scale": [0.5, 0.5, 0.5]
+        },
+        "gui": {
+            "rotation": [-16.19, 4.91, 31.46],
+            "translation": [1, -1.75, 0],
+            "scale": [0.75, 0.75, 0.75]
+        }
+    }
+}

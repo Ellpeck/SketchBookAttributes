@@ -41,6 +41,7 @@ public final class Registry {
             ItemModelsProperties.register(SketchBookAttributes.GILDED_CROSSBOW.get(), new ResourceLocation(SketchBookAttributes.ID, "pulling"), (stack, world, entity) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack && !GildedCrossbowItem.isCharged(stack) ? 1 : 0);
             ItemModelsProperties.register(SketchBookAttributes.GILDED_CROSSBOW.get(), new ResourceLocation(SketchBookAttributes.ID, "charged"), (stack, world, entity) -> entity != null && CrossbowItem.isCharged(stack) ? 1 : 0);
             ItemModelsProperties.register(SketchBookAttributes.GILDED_CROSSBOW.get(), new ResourceLocation(SketchBookAttributes.ID, "firework"), (stack, world, entity) -> entity != null && CrossbowItem.isCharged(stack) && CrossbowItem.containsChargedProjectile(stack, Items.FIREWORK_ROCKET) ? 1 : 0);
+            ItemModelsProperties.register(SketchBookAttributes.BRAWLER_GAUNTLET.get(), new ResourceLocation(SketchBookAttributes.ID, "blocking"), (stack, world, entity) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1 : 0);
 
             for (RegistryObject<Item> entry : SketchBookAttributes.ITEMS.getEntries()) {
                 Item item = entry.get();
