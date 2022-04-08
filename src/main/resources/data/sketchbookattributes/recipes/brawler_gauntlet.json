@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "III",
+        "LIL",
+        "L L"
+    ],
+    "key": {
+        "L": {
+            "item": "minecraft:leather"
+        },
+        "I": {
+            "item": "minecraft:iron_ingot"
+        }
+    },
+    "result": {
+        "item": "sketchbookattributes:brawler_gauntlet"
+    }
+}

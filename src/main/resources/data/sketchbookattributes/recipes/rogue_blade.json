@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "  F",
+        " I ",
+        "S  "
+    ],
+    "key": {
+        "S": {
+            "item": "minecraft:stick"
+        },
+        "I": {
+            "item": "minecraft:iron_ingot"
+        },
+        "F": {
+            "item": "minecraft:flint"
+        }
+    },
+    "result": {
+        "item": "sketchbookattributes:rogue_blade"
+    }
+}

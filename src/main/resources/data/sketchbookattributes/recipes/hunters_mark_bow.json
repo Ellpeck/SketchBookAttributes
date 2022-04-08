@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " IS",
+        "B F",
+        " IS"
+    ],
+    "key": {
+        "B": {
+            "item": "minecraft:stick"
+        },
+        "S": {
+            "item": "minecraft:string"
+        },
+        "F": {
+            "item": "minecraft:bone"
+        },
+        "I": {
+            "item": "minecraft:iron_ingot"
+        }
+    },
+    "result": {
+        "item": "sketchbookattributes:hunters_mark_bow"
+    }
+}

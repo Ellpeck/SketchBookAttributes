@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " BS",
+        "B F",
+        " BS"
+    ],
+    "key": {
+        "B": {
+            "item": "minecraft:bamboo"
+        },
+        "S": {
+            "item": "minecraft:string"
+        },
+        "F": {
+            "item": "minecraft:feather"
+        }
+    },
+    "result": {
+        "item": "sketchbookattributes:quick_string_bow"
+    }
+}
