@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:chest",
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "weight": 2,
+                    "name": "sketchbookattributes:haste_boots"
+                }, {
+                    "type": "minecraft:item",
+                    "weight": 5,
+                    "name": "sketchbookattributes:thunder_king_bow"
+                }, {
+                    "type": "minecraft:item",
+                    "weight": 5,
+                    "name": "sketchbookattributes:flame_gods_blade"
+                }
+            ]
+        }, {
+            "rolls": {
+                "min": 1,
+                "max": 4,
+                "type": "minecraft:uniform"
+            },
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "weight": 10,
+                    "name": "sketchbookattributes:exp_scroll"
+                }
+            ]
+        }
+    ]
+}

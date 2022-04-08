@@ -16,6 +16,8 @@ import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.TableLootEntry;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
@@ -23,6 +25,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
@@ -247,6 +250,21 @@ public final class Events {
                 event.setDamageModifier(1.75F);
                 event.setResult(Event.Result.ALLOW);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void lootTableLoad(LootTableLoadEvent event) {
+        switch (event.getName().toString()) {
+            case "minecraft:chests/simple_dungeon":
+            case "minecraft:chests/village/village_temple":
+            case "minecraft:chests/jungle_temple":
+            case "minecraft:chests/stronghold_corridor":
+            case "minecraft:chests/end_city_treasure":
+                event.getTable().addPool(LootPool.lootPool()
+                        .add(TableLootEntry.lootTableReference(new ResourceLocation(SketchBookAttributes.ID, "inject/shared")))
+                        .bonusRolls(0, 1).name(SketchBookAttributes.ID + "_inject").build());
+                System.out.println("Adding loot to "+event.getName());
         }
     }
 }
