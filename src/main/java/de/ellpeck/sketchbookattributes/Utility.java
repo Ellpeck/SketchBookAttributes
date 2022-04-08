@@ -1,7 +1,10 @@
 package de.ellpeck.sketchbookattributes;
 
+import net.minecraft.advancements.Advancement;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
@@ -11,6 +14,15 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public final class Utility {
+
+    public static void addAdvancement(PlayerEntity player, ResourceLocation advancement, String criterion) {
+        if (!(player instanceof ServerPlayerEntity))
+            return;
+        ServerPlayerEntity playerMp = (ServerPlayerEntity) player;
+        Advancement adv = playerMp.getLevel().getServer().getAdvancements().getAdvancement(advancement);
+        if (adv != null)
+            playerMp.getAdvancements().award(adv, criterion);
+    }
 
     public static EntityRayTraceResult pickEntity(PlayerEntity player, double range) {
         // see GameRenderer.pick for reference

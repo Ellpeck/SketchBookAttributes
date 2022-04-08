@@ -1,6 +1,7 @@
 package de.ellpeck.sketchbookattributes.data;
 
 import de.ellpeck.sketchbookattributes.SketchBookAttributes;
+import de.ellpeck.sketchbookattributes.Utility;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -8,9 +9,11 @@ import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.INBTSerializable;
 
+import java.util.Locale;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -142,14 +145,14 @@ public class PlayerAttributes implements INBTSerializable<CompoundNBT> {
         this.reapplyAttribute(player, Attributes.ARMOR, ARMOR_ATTRIBUTE, this.playerClass == PlayerClass.FIGHTER ? 8 : 0);
     }
 
-    public boolean gainXp(float amount) {
+    public boolean gainXp(PlayerEntity player, float amount) {
         if (this.level >= MAX_LEVEL)
             return false;
         this.pointsToNextLevel += amount;
         while (this.pointsToNextLevel >= this.getXpNeededForNextLevel()) {
             this.pointsToNextLevel -= this.getXpNeededForNextLevel();
             if (this.level < MAX_LEVEL) {
-                this.level++;
+                this.levelUp(player, 1);
                 this.skillPoints++;
             } else {
                 this.pointsToNextLevel = 0;
@@ -187,6 +190,12 @@ public class PlayerAttributes implements INBTSerializable<CompoundNBT> {
                 return false;
         }
         return true;
+    }
+
+    public void levelUp(PlayerEntity player, int amount) {
+        this.level += amount;
+        if (this.playerClass != null && this.level >= 100)
+            Utility.addAdvancement(player, new ResourceLocation(SketchBookAttributes.ID, this.playerClass.name().toLowerCase(Locale.ROOT) + "_100"), "triggered_in_code");
     }
 
     private void reapplyAttribute(PlayerEntity player, Attribute type, UUID id, float value) {

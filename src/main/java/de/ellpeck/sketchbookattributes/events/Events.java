@@ -76,7 +76,7 @@ public final class Events {
             return;
         AttributeData data = AttributeData.get(player.level);
         PlayerAttributes attributes = data.getAttributes(player);
-        if (attributes.gainXp(amount))
+        if (attributes.gainXp(player, amount))
             PacketHandler.sendToAll(data.getPacket());
     }
 
@@ -88,7 +88,7 @@ public final class Events {
                     PlayerEntity player = source.getPlayerOrException();
                     AttributeData data = AttributeData.get(player.level);
                     PlayerAttributes attributes = data.getAttributes(player);
-                    attributes.level = IntegerArgumentType.getInteger(c, "level");
+                    attributes.levelUp(player, IntegerArgumentType.getInteger(c, "level") - attributes.level);
                     attributes.pointsToNextLevel = 0;
                     PacketHandler.sendToAll(data.getPacket());
                     source.sendSuccess(new TranslationTextComponent("info." + SketchBookAttributes.ID + ".level_set", source.getDisplayName(), attributes.level), true);
@@ -264,7 +264,6 @@ public final class Events {
                 event.getTable().addPool(LootPool.lootPool()
                         .add(TableLootEntry.lootTableReference(new ResourceLocation(SketchBookAttributes.ID, "inject/shared")))
                         .bonusRolls(0, 1).name(SketchBookAttributes.ID + "_inject").build());
-                System.out.println("Adding loot to "+event.getName());
         }
     }
 }

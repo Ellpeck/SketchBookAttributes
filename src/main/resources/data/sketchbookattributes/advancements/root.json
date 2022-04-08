@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "sketchbookattributes:class_changer"
+        },
+        "title": {
+            "translate": "advancement.sketchbookattributes.root"
+        },
+        "description": {
+            "translate": "advancement.sketchbookattributes.root.desc"
+        },
+        "background": "minecraft:textures/block/stone_bricks.png",
+        "show_toast": false,
+        "announce_to_chat": false
+    },
+    "criteria": {
+        "root_trigger": {
+            "trigger": "minecraft:impossible"
+        }
+    },
+    "requirements": [
+        [
+            "root_trigger"
+        ]
+    ]
+}

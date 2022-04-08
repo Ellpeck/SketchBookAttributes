@@ -1,0 +1,24 @@
+{
+    "display": {
+        "icon": {
+            "item": "sketchbookattributes:thunder_king_bow"
+        },
+        "title": {
+            "translate": "advancement.sketchbookattributes.ranger_100"
+        },
+        "description": {
+            "translate": "advancement.sketchbookattributes.ranger_100.desc"
+        }
+    },
+    "parent": "sketchbookattributes:ranger",
+    "criteria": {
+        "triggered_in_code": {
+            "trigger": "minecraft:impossible"
+        }
+    },
+    "requirements": [
+        [
+            "triggered_in_code"
+        ]
+    ]
+}

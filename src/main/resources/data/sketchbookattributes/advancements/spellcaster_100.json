@@ -1,0 +1,24 @@
+{
+    "display": {
+        "icon": {
+            "item": "sketchbookattributes:staff_master"
+        },
+        "title": {
+            "translate": "advancement.sketchbookattributes.spellcaster_100"
+        },
+        "description": {
+            "translate": "advancement.sketchbookattributes.spellcaster_100.desc"
+        }
+    },
+    "parent": "sketchbookattributes:spellcaster",
+    "criteria": {
+        "triggered_in_code": {
+            "trigger": "minecraft:impossible"
+        }
+    },
+    "requirements": [
+        [
+            "triggered_in_code"
+        ]
+    ]
+}

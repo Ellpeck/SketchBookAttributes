@@ -1,0 +1,24 @@
+{
+    "display": {
+        "icon": {
+            "item": "sketchbookattributes:iron_greatsword"
+        },
+        "title": {
+            "translate": "advancement.sketchbookattributes.fighter"
+        },
+        "description": {
+            "translate": "advancement.sketchbookattributes.fighter.desc"
+        }
+    },
+    "parent": "sketchbookattributes:root",
+    "criteria": {
+        "triggered_in_code": {
+            "trigger": "minecraft:impossible"
+        }
+    },
+    "requirements": [
+        [
+            "triggered_in_code"
+        ]
+    ]
+}

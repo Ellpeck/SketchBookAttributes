@@ -66,5 +66,19 @@
     "item.sketchbookattributes.brawler_gauntlet": "Brawler Gauntlet",
     "item.sketchbookattributes.barbarian_axe": "Barbarian Axe",
     "item.sketchbookattributes.class_changer": "Class Changer",
-    "item.sketchbookattributes.exp_scroll": "Experience Scroll"
+    "item.sketchbookattributes.exp_scroll": "Experience Scroll",
+    "advancement.sketchbookattributes.root": "SketchBook Attributes",
+    "advancement.sketchbookattributes.root.desc": "Choose a class, level up and become stronger!",
+    "advancement.sketchbookattributes.fighter": "The Blade",
+    "advancement.sketchbookattributes.fighter.desc": "Choose the Fighter class",
+    "advancement.sketchbookattributes.ranger": "The Bow",
+    "advancement.sketchbookattributes.ranger.desc": "Choose the Ranger class",
+    "advancement.sketchbookattributes.spellcaster": "The Staff",
+    "advancement.sketchbookattributes.spellcaster.desc": "Choose the Spellcaster class",
+    "advancement.sketchbookattributes.fighter_100": "Master Swordsman",
+    "advancement.sketchbookattributes.fighter_100.desc": "Reach level 100 as a Fighter",
+    "advancement.sketchbookattributes.ranger_100": "Master of Arrows",
+    "advancement.sketchbookattributes.ranger_100.desc": "Reach level 100 as a Ranger",
+    "advancement.sketchbookattributes.spellcaster_100": "Master of Spells",
+    "advancement.sketchbookattributes.spellcaster_100.desc": "Reach level 100 as a Spellcaster"
 }

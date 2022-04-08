@@ -1,0 +1,24 @@
+{
+    "display": {
+        "icon": {
+            "item": "sketchbookattributes:flame_gods_blade"
+        },
+        "title": {
+            "translate": "advancement.sketchbookattributes.fighter_100"
+        },
+        "description": {
+            "translate": "advancement.sketchbookattributes.fighter_100.desc"
+        }
+    },
+    "parent": "sketchbookattributes:fighter",
+    "criteria": {
+        "triggered_in_code": {
+            "trigger": "minecraft:impossible"
+        }
+    },
+    "requirements": [
+        [
+            "triggered_in_code"
+        ]
+    ]
+}

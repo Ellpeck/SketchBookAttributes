@@ -1,12 +1,16 @@
 package de.ellpeck.sketchbookattributes.network;
 
+import de.ellpeck.sketchbookattributes.SketchBookAttributes;
+import de.ellpeck.sketchbookattributes.Utility;
 import de.ellpeck.sketchbookattributes.data.AttributeData;
 import de.ellpeck.sketchbookattributes.data.PlayerAttributes;
 import de.ellpeck.sketchbookattributes.data.PlayerClass;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkEvent;
 
+import java.util.Locale;
 import java.util.function.Supplier;
 
 public class ClassButtonPacket {
@@ -37,6 +41,7 @@ public class ClassButtonPacket {
                     return;
                 attributes.playerClass = message.playerClass;
                 attributes.reapplyAttributes(player);
+                Utility.addAdvancement(player, new ResourceLocation(SketchBookAttributes.ID, message.playerClass.name().toLowerCase(Locale.ROOT)), "triggered_in_code");
                 PacketHandler.sendTo(player, data.getPacket());
             }
         });
