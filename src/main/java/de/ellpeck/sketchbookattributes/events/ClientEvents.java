@@ -15,6 +15,7 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.IFormattableTextComponent;
@@ -25,11 +26,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderNameplateEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public final class ClientEvents {
@@ -104,6 +108,18 @@ public final class ClientEvents {
             y -= mc.font.lineHeight;
             mc.font.drawShadow(stack, new TranslationTextComponent(className + ".skill"), 2, y - 3, 0xffffff);
             stack.popPose();
+        }
+    }
+
+    @SubscribeEvent
+    public static void onItemTooltip(ItemTooltipEvent event) {
+        ItemStack stack = event.getItemStack();
+        for (String config : SketchBookAttributes.attributeItemRequirements.get()) {
+            Matcher matcher = SketchBookAttributes.ITEM_REQUIREMENT_REGEX.matcher(config);
+            if (!matcher.matches() || !Pattern.matches(matcher.group(1), stack.getItem().getRegistryName().toString()))
+                continue;
+            TranslationTextComponent ability = new TranslationTextComponent("attribute." + SketchBookAttributes.ID + "." + matcher.group(2));
+            event.getToolTip().add(new TranslationTextComponent("info." + SketchBookAttributes.ID + ".requirements", matcher.group(3), ability).withStyle(TextFormatting.DARK_GRAY));
         }
     }
 }
