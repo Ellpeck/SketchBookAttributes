@@ -24,6 +24,16 @@ public class ClassChangerItem extends Item {
             AttributeData data = AttributeData.get(world);
             PlayerAttributes attributes = data.getAttributes(player);
             attributes.playerClass = null;
+            attributes.skillPoints += attributes.addedStrength;
+            attributes.addedStrength = 0;
+            attributes.skillPoints += attributes.addedDexterity;
+            attributes.addedDexterity = 0;
+            attributes.skillPoints += attributes.addedConstitution;
+            attributes.addedConstitution = 0;
+            attributes.skillPoints += attributes.addedIntelligence;
+            attributes.addedIntelligence = 0;
+            attributes.skillPoints += attributes.addedAgility;
+            attributes.addedAgility = 0;
             attributes.reapplyAttributes(player);
             PacketHandler.sendToAll(data.getPacket());
         }
