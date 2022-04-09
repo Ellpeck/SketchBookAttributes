@@ -207,8 +207,10 @@ public class PlayerAttributes implements INBTSerializable<CompoundNBT> {
 
     public static boolean canUseHeldItem(PlayerEntity player, boolean displayMessage) {
         ItemStack stack = player.getMainHandItem();
-        if (stack.isEmpty())
-            return true;
+        return stack.isEmpty() || canUseItem(player, stack, displayMessage);
+    }
+
+    public static boolean canUseItem(PlayerEntity player, ItemStack stack, boolean displayMessage) {
         PlayerAttributes attributes = AttributeData.get(player.level).getAttributes(player);
         if (attributes.canUseItem(stack))
             return true;
